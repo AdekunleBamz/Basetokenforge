@@ -15,6 +15,6 @@ export const CHAIN_ID = 8453;
 // Update this after deploying your contract
 export const TOKEN_FACTORY_ADDRESS = process.env.NEXT_PUBLIC_FACTORY_ADDRESS as `0x${string}` || "0x0000000000000000000000000000000000000000";
 
-// Creation fee in ETH
-export const CREATION_FEE = "0.0005";
+// Creation fee in ETH (~$0.50)
+export const CREATION_FEE = "0.00015";
 

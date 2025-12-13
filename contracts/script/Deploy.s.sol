@@ -9,8 +9,8 @@ contract DeployScript is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         address feeRecipient = vm.envAddress("FEE_RECIPIENT");
         
-        // Creation fee: 0.0005 ETH (~$1.50 at current prices)
-        uint256 creationFee = 0.0005 ether;
+        // Creation fee: 0.00015 ETH (~$0.50 at current prices)
+        uint256 creationFee = 0.00015 ether;
         
         vm.startBroadcast(deployerPrivateKey);
         

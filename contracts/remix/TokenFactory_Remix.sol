@@ -12,7 +12,7 @@ pragma solidity ^0.8.20;
 //    - Environment: "Injected Provider - MetaMask"
 //    - Make sure MetaMask is on Base Mainnet (Chain ID: 8453)
 //    - Constructor args:
-//      _creationFee: 500000000000000 (0.0005 ETH in wei)
+//      _creationFee: 150000000000000 (0.00015 ETH in wei, ~$0.50)
 //      _feeRecipient: YOUR_WALLET_ADDRESS
 // 6. Copy the deployed contract address
 // 7. Update NEXT_PUBLIC_FACTORY_ADDRESS in frontend/.env.local
