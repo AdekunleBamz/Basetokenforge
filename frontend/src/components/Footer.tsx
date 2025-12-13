@@ -40,7 +40,7 @@ export function Footer() {
               Basescan
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/AdekunleBamz/Basetokenforge"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors"
@@ -51,7 +51,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-white/40 text-sm">
-            © 2024 Base Token Forge
+            © 2025 Base Token Forge
           </p>
         </div>
 

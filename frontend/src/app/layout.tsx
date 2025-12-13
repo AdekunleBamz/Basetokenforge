@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Base Token Forge | Create ERC20 Tokens on Base",
   description: "Deploy your own ERC20 tokens on Base mainnet with one click. No coding required. Low fees, instant deployment.",
   keywords: ["Base", "Token", "ERC20", "Crypto", "Ethereum", "Deploy", "Create"],
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "Base Token Forge",
     description: "Create & deploy ERC20 tokens on Base mainnet instantly",
