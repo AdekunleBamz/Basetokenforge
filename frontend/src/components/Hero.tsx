@@ -1,10 +1,10 @@
 "use client";
 
-import { useAccount } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 
 export function Hero() {
-  const { isConnected } = useAccount();
+  const { open } = useAppKit();
+  const { isConnected } = useAppKitAccount();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
@@ -53,13 +53,9 @@ export function Hero() {
         {/* CTA */}
         {!isConnected ? (
           <div className="flex flex-col items-center gap-4">
-            <ConnectButton.Custom>
-              {({ openConnectModal }) => (
-                <button onClick={openConnectModal} className="btn-forge text-xl">
-                  Connect Wallet to Start
-                </button>
-              )}
-            </ConnectButton.Custom>
+            <button onClick={() => open()} className="btn-forge text-xl">
+              Connect Wallet to Start
+            </button>
             <p className="text-white/40 text-sm">
               Supports MetaMask, Coinbase Wallet, and more
             </p>
@@ -98,4 +94,3 @@ export function Hero() {
     </section>
   );
 }
-

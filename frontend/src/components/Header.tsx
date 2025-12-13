@@ -1,10 +1,14 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 
 export function Header() {
-  const { isConnected } = useAccount();
+  const { open } = useAppKit();
+  const { isConnected, address } = useAppKitAccount();
+
+  const truncateAddress = (addr: string) => {
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
@@ -63,17 +67,14 @@ export function Header() {
               <span className="text-green-400 text-sm font-medium">Base</span>
             </div>
           )}
-          <ConnectButton
-            showBalance={false}
-            chainStatus="none"
-            accountStatus={{
-              smallScreen: "avatar",
-              largeScreen: "full",
-            }}
-          />
+          <button
+            onClick={() => open()}
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-forge-orange to-forge-gold text-base-dark font-semibold hover:opacity-90 transition-opacity"
+          >
+            {isConnected && address ? truncateAddress(address) : "Connect Wallet"}
+          </button>
         </div>
       </div>
     </header>
   );
 }
-

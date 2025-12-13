@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
+import { useAppKitAccount } from "@reown/appkit/react";
+import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
 import { parseEther, parseUnits, formatEther } from "viem";
 import { TOKEN_FACTORY_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS, CREATION_FEE } from "@/config/wagmi";
@@ -14,14 +15,13 @@ interface TokenForm {
 }
 
 export function TokenCreator() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const [form, setForm] = useState<TokenForm>({
     name: "",
     symbol: "",
     decimals: 18,
     supply: "1000000",
   });
-  const [createdToken, setCreatedToken] = useState<string | null>(null);
 
   // Read current fee from contract
   const { data: currentFee } = useReadContract({
@@ -39,13 +39,6 @@ export function TokenCreator() {
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
-
-  useEffect(() => {
-    if (isSuccess && hash) {
-      // In a real app, you'd parse the logs to get the token address
-      setCreatedToken("pending");
-    }
-  }, [isSuccess, hash]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -242,4 +235,3 @@ export function TokenCreator() {
     </section>
   );
 }
-

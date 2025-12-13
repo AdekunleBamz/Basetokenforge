@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
+import { config } from "@/config/wagmi";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -22,17 +25,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(
+    config,
+    (await headers()).get("cookie")
+  );
+
   return (
     <html lang="en">
       <body className="antialiased">
-        <Providers>{children}</Providers>
+        <Providers initialState={initialState}>{children}</Providers>
       </body>
     </html>
   );
 }
-

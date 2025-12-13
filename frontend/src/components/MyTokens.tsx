@@ -1,6 +1,7 @@
 "use client";
 
-import { useAccount, useReadContract, useReadContracts } from "wagmi";
+import { useAppKitAccount } from "@reown/appkit/react";
+import { useReadContract, useReadContracts } from "wagmi";
 import { TOKEN_FACTORY_ABI, ERC20_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS } from "@/config/wagmi";
 import { formatUnits } from "viem";
@@ -14,14 +15,14 @@ interface TokenInfo {
 }
 
 export function MyTokens() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
 
   // Get user's tokens from factory
   const { data: tokenAddresses, isLoading } = useReadContract({
     address: TOKEN_FACTORY_ADDRESS,
     abi: TOKEN_FACTORY_ABI,
     functionName: "getTokensByCreator",
-    args: address ? [address] : undefined,
+    args: address ? [address as `0x${string}`] : undefined,
     query: {
       enabled: !!address,
     },
@@ -167,4 +168,3 @@ function TokenCard({ token }: { token: TokenInfo }) {
     </div>
   );
 }
-
