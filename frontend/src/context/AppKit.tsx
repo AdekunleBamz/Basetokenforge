@@ -6,7 +6,7 @@ import { wagmiAdapter, projectId, metadata } from "@/config/wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, type State } from "wagmi";
 import React, { type ReactNode, useEffect, useState } from "react";
-import { initFarcaster, isInFarcaster } from "@/lib/farcaster";
+import { sdk } from "@farcaster/frame-sdk";
 
 // Query client
 const queryClient = new QueryClient();
@@ -53,10 +53,21 @@ export function AppKitProvider({
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Initialize Farcaster SDK if in frame
-    initFarcaster().then(() => {
+    // Initialize Farcaster SDK and call ready() immediately
+    const init = async () => {
+      try {
+        // Try to get Farcaster context
+        await sdk.context;
+        // Call ready() to hide splash screen - this is critical!
+        sdk.actions.ready();
+      } catch (e) {
+        // Not in Farcaster, that's ok
+        console.log("Not in Farcaster frame");
+      }
       setIsReady(true);
-    });
+    };
+
+    init();
   }, []);
 
   if (!isReady) {

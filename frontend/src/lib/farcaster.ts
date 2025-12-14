@@ -17,7 +17,7 @@ export interface FarcasterContext {
 let isInitialized = false;
 let cachedContext: FarcasterContext | null = null;
 
-// Initialize Farcaster SDK
+// Initialize Farcaster SDK and signal ready immediately
 export async function initFarcaster(): Promise<FarcasterContext> {
   if (cachedContext) return cachedContext;
 
@@ -25,8 +25,8 @@ export async function initFarcaster(): Promise<FarcasterContext> {
     // Get context from SDK
     const context = await sdk.context;
     
-    // Signal that the app is ready
-    await sdk.actions.ready();
+    // Signal ready IMMEDIATELY - this hides the splash screen after 3 seconds
+    sdk.actions.ready();
 
     cachedContext = {
       isLoaded: true,
