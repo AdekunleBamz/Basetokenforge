@@ -1,8 +1,8 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjEyMzQ1NiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ",
+    "header": "eyJmaWQiOjY1MzQ3OSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDFFNmY4NGYyMzA1MTZlNDM1MTkwNkY1YkIxRjZiNDJBOTkzNThlNzIifQ",
     "payload": "eyJkb21haW4iOiJiYXNldG9rZW5mb3JnZS52ZXJjZWwuYXBwIn0",
-    "signature": "MHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw"
+    "signature": "zIo0IvnnGpG+pOHqDJMz4PBGiojQ5CU7xRF6Juj8mzIQy4BsunoBmXb73+EmGzMxBuc7IvZLNw53m+X+K0mrBRs="
   },
   "frame": {
     "version": "1",
@@ -16,4 +16,3 @@
     "webhookUrl": "https://basetokenforge.vercel.app/api/webhook"
   }
 }
-
