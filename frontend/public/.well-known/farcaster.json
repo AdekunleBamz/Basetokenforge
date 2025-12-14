@@ -1,0 +1,19 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEyMzQ1NiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ",
+    "payload": "eyJkb21haW4iOiJiYXNldG9rZW5mb3JnZS52ZXJjZWwuYXBwIn0",
+    "signature": "MHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Base Token Forge",
+    "iconUrl": "https://basetokenforge.vercel.app/icon.png",
+    "homeUrl": "https://basetokenforge.vercel.app",
+    "imageUrl": "https://basetokenforge.vercel.app/og-image.png",
+    "buttonTitle": "🔥 Create Token",
+    "splashImageUrl": "https://basetokenforge.vercel.app/splash.png",
+    "splashBackgroundColor": "#0A0B0D",
+    "webhookUrl": "https://basetokenforge.vercel.app/api/webhook"
+  }
+}
+
