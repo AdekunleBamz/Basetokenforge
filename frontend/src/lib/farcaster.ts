@@ -14,16 +14,21 @@ export interface FarcasterContext {
   error?: string;
 }
 
+let isInitialized = false;
+let cachedContext: FarcasterContext | null = null;
+
 // Initialize Farcaster SDK
 export async function initFarcaster(): Promise<FarcasterContext> {
+  if (cachedContext) return cachedContext;
+
   try {
-    // Initialize the SDK
+    // Get context from SDK
     const context = await sdk.context;
     
     // Signal that the app is ready
     await sdk.actions.ready();
 
-    return {
+    cachedContext = {
       isLoaded: true,
       isInFrame: true,
       user: context?.user ? {
@@ -33,14 +38,31 @@ export async function initFarcaster(): Promise<FarcasterContext> {
         pfpUrl: context.user.pfpUrl,
       } : undefined,
     };
+    
+    isInitialized = true;
+    return cachedContext;
   } catch (error) {
     console.log("Not in Farcaster frame or SDK error:", error);
-    return {
+    cachedContext = {
       isLoaded: true,
       isInFrame: false,
       error: error instanceof Error ? error.message : "Unknown error",
     };
+    return cachedContext;
   }
+}
+
+// Get Farcaster Ethereum Provider for wallet interactions
+export function getFarcasterEthProvider() {
+  if (typeof window !== "undefined" && isInitialized) {
+    return sdk.wallet.ethProvider;
+  }
+  return null;
+}
+
+// Check if running in Farcaster
+export function isInFarcaster(): boolean {
+  return cachedContext?.isInFrame ?? false;
 }
 
 // Open URL in Farcaster
@@ -48,7 +70,6 @@ export async function openUrl(url: string) {
   try {
     await sdk.actions.openUrl(url);
   } catch {
-    // Fallback for non-Farcaster environment
     window.open(url, "_blank");
   }
 }
@@ -70,4 +91,3 @@ export async function addFrame() {
     console.log("Not in Farcaster frame");
   }
 }
-

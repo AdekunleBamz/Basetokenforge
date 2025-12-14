@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { parseEther, parseUnits, formatEther } from "viem";
+import { parseEther, parseUnits, formatEther, createWalletClient, custom, http } from "viem";
+import { base } from "viem/chains";
 import { TOKEN_FACTORY_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS, CREATION_FEE } from "@/config/wagmi";
+import { useFarcaster } from "@/hooks/useFarcaster";
+import { sdk } from "@farcaster/frame-sdk";
 
 interface TokenForm {
   name: string;
@@ -15,13 +18,35 @@ interface TokenForm {
 }
 
 export function TokenCreator() {
-  const { address, isConnected } = useAppKitAccount();
+  const { address: appKitAddress, isConnected: isAppKitConnected } = useAppKitAccount();
+  const { isInFrame } = useFarcaster();
+  
+  const [farcasterAddress, setFarcasterAddress] = useState<string | null>(null);
   const [form, setForm] = useState<TokenForm>({
     name: "",
     symbol: "",
     decimals: 18,
     supply: "1000000",
   });
+  const [fcTxHash, setFcTxHash] = useState<string | null>(null);
+  const [fcIsPending, setFcIsPending] = useState(false);
+  const [fcError, setFcError] = useState<string | null>(null);
+
+  // Get Farcaster address
+  useEffect(() => {
+    if (isInFrame) {
+      sdk.wallet.ethProvider.request({ method: "eth_accounts" })
+        .then((accounts: string[]) => {
+          if (accounts.length > 0) {
+            setFarcasterAddress(accounts[0]);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [isInFrame]);
+
+  const isConnected = isInFrame ? !!farcasterAddress : isAppKitConnected;
+  const address = isInFrame ? farcasterAddress : appKitAddress;
 
   // Read current fee from contract
   const { data: currentFee } = useReadContract({
@@ -32,12 +57,12 @@ export function TokenCreator() {
 
   const fee = currentFee ? formatEther(currentFee) : CREATION_FEE;
 
-  // Write contract hook
+  // Wagmi write contract hook (for non-Farcaster)
   const { data: hash, isPending, writeContract, error } = useWriteContract();
 
   // Wait for transaction
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
-    hash,
+    hash: hash || (fcTxHash as `0x${string}` | undefined),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,13 +71,45 @@ export function TokenCreator() {
 
     const supplyWithDecimals = parseUnits(form.supply, form.decimals);
 
-    writeContract({
-      address: TOKEN_FACTORY_ADDRESS,
-      abi: TOKEN_FACTORY_ABI,
-      functionName: "createToken",
-      args: [form.name, form.symbol, form.decimals, supplyWithDecimals],
-      value: parseEther(fee),
-    });
+    if (isInFrame && farcasterAddress) {
+      // Use Farcaster wallet
+      setFcIsPending(true);
+      setFcError(null);
+      setFcTxHash(null);
+
+      try {
+        // Create transaction data
+        const walletClient = createWalletClient({
+          chain: base,
+          transport: custom(sdk.wallet.ethProvider),
+        });
+
+        const txHash = await walletClient.writeContract({
+          address: TOKEN_FACTORY_ADDRESS,
+          abi: TOKEN_FACTORY_ABI,
+          functionName: "createToken",
+          args: [form.name, form.symbol, form.decimals, supplyWithDecimals],
+          value: parseEther(fee),
+          account: farcasterAddress as `0x${string}`,
+        });
+
+        setFcTxHash(txHash);
+      } catch (err) {
+        console.error("Farcaster tx error:", err);
+        setFcError(err instanceof Error ? err.message : "Transaction failed");
+      } finally {
+        setFcIsPending(false);
+      }
+    } else {
+      // Use wagmi/AppKit
+      writeContract({
+        address: TOKEN_FACTORY_ADDRESS,
+        abi: TOKEN_FACTORY_ABI,
+        functionName: "createToken",
+        args: [form.name, form.symbol, form.decimals, supplyWithDecimals],
+        value: parseEther(fee),
+      });
+    }
   };
 
   const isValidForm =
@@ -60,6 +117,11 @@ export function TokenCreator() {
     form.symbol.length > 0 &&
     form.symbol.length <= 11 &&
     parseFloat(form.supply) > 0;
+
+  const txPending = isInFrame ? fcIsPending : isPending;
+  const txError = isInFrame ? fcError : error?.message;
+  const txHash = isInFrame ? fcTxHash : hash;
+  const txSuccess = isSuccess && !!txHash;
 
   return (
     <section id="create" className="py-24 px-6">
@@ -176,24 +238,24 @@ export function TokenCreator() {
             )}
 
             {/* Error Display */}
-            {error && (
+            {txError && (
               <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
                 <p className="text-red-400 text-sm">
-                  {error.message.includes("User rejected")
+                  {txError.includes("User rejected") || txError.includes("rejected")
                     ? "Transaction cancelled"
-                    : error.message.slice(0, 100)}
+                    : txError.slice(0, 100)}
                 </p>
               </div>
             )}
 
             {/* Success Display */}
-            {isSuccess && hash && (
+            {txSuccess && txHash && (
               <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
                 <p className="text-green-400 font-medium mb-2">
                   🎉 Token Created Successfully!
                 </p>
                 <a
-                  href={`https://basescan.org/tx/${hash}`}
+                  href={`https://basescan.org/tx/${txHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-400/80 text-sm underline hover:text-green-400"
@@ -206,13 +268,13 @@ export function TokenCreator() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={!isConnected || !isValidForm || isPending || isConfirming}
+              disabled={!isConnected || !isValidForm || txPending || isConfirming}
               className="btn-forge w-full flex items-center justify-center gap-3"
             >
-              {isPending || isConfirming ? (
+              {txPending || isConfirming ? (
                 <>
                   <div className="spinner" />
-                  <span>{isPending ? "Confirm in Wallet..." : "Deploying..."}</span>
+                  <span>{txPending ? "Confirm in Wallet..." : "Deploying..."}</span>
                 </>
               ) : (
                 <>

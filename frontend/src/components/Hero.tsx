@@ -1,10 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { useFarcaster } from "@/hooks/useFarcaster";
+import { sdk } from "@farcaster/frame-sdk";
 
 export function Hero() {
   const { open } = useAppKit();
-  const { isConnected } = useAppKitAccount();
+  const { isConnected: isAppKitConnected } = useAppKitAccount();
+  const { isInFrame } = useFarcaster();
+  
+  const [farcasterAddress, setFarcasterAddress] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  useEffect(() => {
+    if (isInFrame) {
+      sdk.wallet.ethProvider.request({ method: "eth_accounts" })
+        .then((accounts: string[]) => {
+          if (accounts.length > 0) {
+            setFarcasterAddress(accounts[0]);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [isInFrame]);
+
+  const isConnected = isInFrame ? !!farcasterAddress : isAppKitConnected;
+
+  const handleConnect = async () => {
+    if (isInFrame) {
+      setIsConnecting(true);
+      try {
+        const accounts = await sdk.wallet.ethProvider.request({ 
+          method: "eth_requestAccounts" 
+        }) as string[];
+        if (accounts.length > 0) {
+          setFarcasterAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("Farcaster wallet connection error:", error);
+      } finally {
+        setIsConnecting(false);
+      }
+    } else {
+      open();
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
@@ -30,7 +71,7 @@ export function Hero() {
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-base-blue/10 border border-base-blue/30 mb-8">
           <div className="w-2 h-2 rounded-full bg-base-blue animate-pulse" />
           <span className="text-base-blue font-medium text-sm">
-            Live on Base Mainnet
+            {isInFrame ? "Farcaster Mini App" : "Live on Base Mainnet"}
           </span>
         </div>
 
@@ -53,11 +94,15 @@ export function Hero() {
         {/* CTA */}
         {!isConnected ? (
           <div className="flex flex-col items-center gap-4">
-            <button onClick={() => open()} className="btn-forge text-xl">
-              Connect Wallet to Start
+            <button 
+              onClick={handleConnect} 
+              disabled={isConnecting}
+              className="btn-forge text-xl disabled:opacity-50"
+            >
+              {isConnecting ? "Connecting..." : "Connect Wallet to Start"}
             </button>
             <p className="text-white/40 text-sm">
-              Supports MetaMask, Coinbase Wallet, and more
+              {isInFrame ? "Uses your Farcaster wallet" : "Supports MetaMask, Coinbase Wallet, and more"}
             </p>
           </div>
         ) : (

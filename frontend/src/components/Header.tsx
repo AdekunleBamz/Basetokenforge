@@ -1,10 +1,55 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { useFarcaster } from "@/hooks/useFarcaster";
+import { sdk } from "@farcaster/frame-sdk";
 
 export function Header() {
   const { open } = useAppKit();
-  const { isConnected, address } = useAppKitAccount();
+  const { isConnected: isAppKitConnected, address: appKitAddress } = useAppKitAccount();
+  const { isInFrame, user } = useFarcaster();
+  
+  const [farcasterAddress, setFarcasterAddress] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  // Get address from Farcaster wallet if in frame
+  useEffect(() => {
+    if (isInFrame) {
+      sdk.wallet.ethProvider.request({ method: "eth_accounts" })
+        .then((accounts: string[]) => {
+          if (accounts.length > 0) {
+            setFarcasterAddress(accounts[0]);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [isInFrame]);
+
+  const isConnected = isInFrame ? !!farcasterAddress : isAppKitConnected;
+  const address = isInFrame ? farcasterAddress : appKitAddress;
+
+  const handleConnect = async () => {
+    if (isInFrame) {
+      // Use Farcaster wallet
+      setIsConnecting(true);
+      try {
+        const accounts = await sdk.wallet.ethProvider.request({ 
+          method: "eth_requestAccounts" 
+        }) as string[];
+        if (accounts.length > 0) {
+          setFarcasterAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("Farcaster wallet connection error:", error);
+      } finally {
+        setIsConnecting(false);
+      }
+    } else {
+      // Use AppKit
+      open();
+    }
+  };
 
   const truncateAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -28,36 +73,34 @@ export function Header() {
             <h1 className="font-display font-bold text-xl text-white">
               Token Forge
             </h1>
-            <p className="text-xs text-forge-orange font-medium">Base Mainnet</p>
+            <p className="text-xs text-forge-orange font-medium">
+              {isInFrame ? "Farcaster" : "Base Mainnet"}
+            </p>
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a
-            href="#create"
-            className="text-white/70 hover:text-white transition-colors font-medium"
-          >
-            Create
-          </a>
-          <a
-            href="#tokens"
-            className="text-white/70 hover:text-white transition-colors font-medium"
-          >
-            My Tokens
-          </a>
-          <a
-            href="https://basescan.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/70 hover:text-white transition-colors font-medium flex items-center gap-1"
-          >
-            Explorer
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-        </nav>
+        {/* Navigation - hide on mobile in Farcaster */}
+        {!isInFrame && (
+          <nav className="hidden md:flex items-center gap-8">
+            <a href="#create" className="text-white/70 hover:text-white transition-colors font-medium">
+              Create
+            </a>
+            <a href="#tokens" className="text-white/70 hover:text-white transition-colors font-medium">
+              My Tokens
+            </a>
+            <a
+              href="https://basescan.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/70 hover:text-white transition-colors font-medium flex items-center gap-1"
+            >
+              Explorer
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </nav>
+        )}
 
         {/* Wallet Connection */}
         <div className="flex items-center gap-4">
@@ -67,11 +110,28 @@ export function Header() {
               <span className="text-green-400 text-sm font-medium">Base</span>
             </div>
           )}
+          
+          {/* Show Farcaster user info */}
+          {isInFrame && user?.pfpUrl && (
+            <img 
+              src={user.pfpUrl} 
+              alt={user.displayName || "User"} 
+              className="w-8 h-8 rounded-full border-2 border-forge-orange"
+            />
+          )}
+          
           <button
-            onClick={() => open()}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-forge-orange to-forge-gold text-base-dark font-semibold hover:opacity-90 transition-opacity"
+            onClick={handleConnect}
+            disabled={isConnecting}
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-forge-orange to-forge-gold text-base-dark font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
           >
-            {isConnected && address ? truncateAddress(address) : "Connect Wallet"}
+            {isConnecting ? (
+              "Connecting..."
+            ) : isConnected && address ? (
+              truncateAddress(address)
+            ) : (
+              "Connect Wallet"
+            )}
           </button>
         </div>
       </div>
