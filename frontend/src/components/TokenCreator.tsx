@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { parseEther, parseUnits, formatEther, createWalletClient, custom, http } from "viem";
+import { parseEther, parseUnits, formatEther, createWalletClient, custom } from "viem";
 import { base } from "viem/chains";
 import { TOKEN_FACTORY_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS, CREATION_FEE } from "@/config/wagmi";
@@ -36,9 +36,9 @@ export function TokenCreator() {
   useEffect(() => {
     if (isInFrame) {
       sdk.wallet.ethProvider.request({ method: "eth_accounts" })
-        .then((accounts: string[]) => {
-          if (accounts.length > 0) {
-            setFarcasterAddress(accounts[0]);
+        .then((accounts) => {
+          if (accounts && accounts.length > 0) {
+            setFarcasterAddress(accounts[0] as string);
           }
         })
         .catch(console.error);

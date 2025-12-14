@@ -17,9 +17,9 @@ export function Header() {
   useEffect(() => {
     if (isInFrame) {
       sdk.wallet.ethProvider.request({ method: "eth_accounts" })
-        .then((accounts: string[]) => {
-          if (accounts.length > 0) {
-            setFarcasterAddress(accounts[0]);
+        .then((accounts) => {
+          if (accounts && accounts.length > 0) {
+            setFarcasterAddress(accounts[0] as string);
           }
         })
         .catch(console.error);
@@ -36,9 +36,9 @@ export function Header() {
       try {
         const accounts = await sdk.wallet.ethProvider.request({ 
           method: "eth_requestAccounts" 
-        }) as string[];
-        if (accounts.length > 0) {
-          setFarcasterAddress(accounts[0]);
+        });
+        if (accounts && accounts.length > 0) {
+          setFarcasterAddress(accounts[0] as string);
         }
       } catch (error) {
         console.error("Farcaster wallet connection error:", error);
