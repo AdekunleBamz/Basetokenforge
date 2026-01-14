@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React from 'react';
 import { cn } from '@/lib/utils/cn';
 
@@ -17,6 +18,13 @@ const sizeStyles = {
   lg: 'w-12 h-12 text-base',
   xl: 'w-16 h-16 text-lg',
 };
+
+const sizePx = {
+  sm: 32,
+  md: 40,
+  lg: 48,
+  xl: 64,
+} as const;
 
 function getInitials(name: string): string {
   return name
@@ -60,10 +68,13 @@ export function Avatar({ src, alt, name, size = 'md', className }: AvatarProps) 
       )}
     >
       {src ? (
-        <img
+        <Image
           src={src}
           alt={alt || name || 'Avatar'}
+          width={sizePx[size]}
+          height={sizePx[size]}
           className="w-full h-full object-cover"
+          unoptimized
         />
       ) : (
         <span>{initials}</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React from 'react';
 import { cn } from '@/lib/utils/cn';
 
@@ -16,6 +17,13 @@ const SIZE_CLASSES = {
   lg: 'w-14 h-14 text-lg',
   xl: 'w-20 h-20 text-2xl',
 };
+
+const SIZE_PX = {
+  sm: 32,
+  md: 40,
+  lg: 56,
+  xl: 80,
+} as const;
 
 export function TokenIcon({
   symbol,
@@ -38,15 +46,14 @@ export function TokenIcon({
 
   if (imageUrl && !imageError) {
     return (
-      <img
+      <Image
         src={imageUrl}
         alt={symbol}
-        className={cn(
-          'rounded-full object-cover',
-          SIZE_CLASSES[size],
-          className
-        )}
+        width={SIZE_PX[size]}
+        height={SIZE_PX[size]}
+        className={cn('rounded-full object-cover', SIZE_CLASSES[size], className)}
         onError={() => setImageError(true)}
+        unoptimized
       />
     );
   }

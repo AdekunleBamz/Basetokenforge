@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import { useEffect, useState } from "react";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useFarcaster } from "@/hooks/useFarcaster";
@@ -113,10 +114,13 @@ export function Header() {
           
           {/* Show Farcaster user info */}
           {isInFrame && user?.pfpUrl && (
-            <img 
-              src={user.pfpUrl} 
-              alt={user.displayName || "User"} 
+            <Image
+              src={user.pfpUrl}
+              alt={user.displayName || "User"}
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-full border-2 border-forge-orange"
+              unoptimized
             />
           )}
           

@@ -10,6 +10,7 @@ interface NumberInputProps
   error?: string;
   value: string;
   onValueChange: (value: string) => void;
+  onCommit?: (value: number | null) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -17,6 +18,7 @@ interface NumberInputProps
   allowNegative?: boolean;
   leftAddon?: React.ReactNode;
   rightAddon?: React.ReactNode;
+  fullWidth?: boolean;
 }
 
 function clampNumber(value: number, min?: number, max?: number) {
@@ -37,6 +39,7 @@ export function NumberInput({
   error,
   value,
   onValueChange,
+  onCommit,
   min,
   max,
   step = 1,
@@ -44,6 +47,7 @@ export function NumberInput({
   allowNegative = false,
   leftAddon,
   rightAddon,
+  fullWidth = true,
   className,
   id,
   disabled,
@@ -56,6 +60,7 @@ export function NumberInput({
     const clamped = clampNumber(next, min, max);
     const formatted = precision > 0 ? clamped.toFixed(precision) : String(Math.trunc(clamped));
     onValueChange(formatted);
+    onCommit?.(clamped);
   };
 
   const parseCurrent = () => {
@@ -106,8 +111,27 @@ export function NumberInput({
     onValueChange(sanitized);
   };
 
+  const handleCommit = () => {
+    const nextRaw = value.trim();
+
+    if (nextRaw === '' || nextRaw === '-' || nextRaw === '.' || nextRaw === '-.') {
+      onValueChange('');
+      onCommit?.(null);
+      return;
+    }
+
+    const parsed = Number(nextRaw);
+    if (!Number.isFinite(parsed)) {
+      onValueChange('');
+      onCommit?.(null);
+      return;
+    }
+
+    commitNumber(parsed);
+  };
+
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn('space-y-2', fullWidth && 'w-full', className)}>
       {label && (
         <label htmlFor={inputId} className="block text-white/80 font-medium text-sm">
           {label}
@@ -128,6 +152,13 @@ export function NumberInput({
           inputMode={allowDecimals ? 'decimal' : 'numeric'}
           value={value}
           onChange={handleChange}
+          onBlur={handleCommit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleCommit();
+            }
+          }}
           disabled={disabled}
           className={cn(
             'flex-1 px-4 py-3 bg-transparent text-white placeholder:text-white/40',

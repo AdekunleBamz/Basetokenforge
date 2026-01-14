@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { debounce } from '@/lib/utils/async';
 
 interface UseDebounceOptions {
@@ -43,12 +43,11 @@ export function useDebouncedCallback<T extends (...args: unknown[]) => unknown>(
   }, [callback]);
 
   // Create debounced function
-  const debouncedFn = useCallback(
-    debounce((...args: unknown[]) => {
+  const debouncedFn = useMemo(() => {
+    return debounce((...args: unknown[]) => {
       callbackRef.current(...args);
-    }, delay),
-    [delay]
-  );
+    }, delay);
+  }, [delay]);
 
   return debouncedFn as T;
 }

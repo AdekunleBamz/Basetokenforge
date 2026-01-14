@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React from 'react';
 import { cn } from '@/lib/utils/cn';
 
@@ -90,7 +91,14 @@ export function FileUpload({
         />
         {preview ? (
           <div className="flex flex-col items-center gap-3">
-            <img src={preview} alt="Preview" className="max-h-32 rounded-lg" />
+            <Image
+              src={preview}
+              alt="Preview"
+              width={320}
+              height={160}
+              className="max-h-32 w-auto rounded-lg"
+              unoptimized
+            />
             {selectedFile && (
               <div className="text-center">
                 <p className="text-sm text-white/70 truncate max-w-[240px]">{selectedFile.name}</p>
