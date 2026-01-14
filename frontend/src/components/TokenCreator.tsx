@@ -9,6 +9,7 @@ import { TOKEN_FACTORY_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS, CREATION_FEE } from "@/config/wagmi";
 import { useFarcaster } from "@/hooks/useFarcaster";
 import { sdk } from "@farcaster/frame-sdk";
+import { NumberInput } from "@/components/NumberInput";
 
 interface TokenForm {
   name: string;
@@ -195,20 +196,16 @@ export function TokenCreator() {
 
             {/* Total Supply */}
             <div>
-              <label className="block text-white/80 font-medium mb-2">
-                Total Supply
-              </label>
-              <input
-                type="number"
+              <NumberInput
+                label="Total Supply"
                 placeholder="1000000"
                 value={form.supply}
-                onChange={(e) => setForm({ ...form, supply: e.target.value })}
-                className="input-forge"
-                min="1"
+                onValueChange={(supply) => setForm({ ...form, supply })}
+                min={1}
+                step={1}
+                allowDecimals={false}
+                hint="All tokens will be minted to your wallet"
               />
-              <p className="text-white/40 text-sm mt-1">
-                All tokens will be minted to your wallet
-              </p>
             </div>
 
             {/* Fee Display */}
