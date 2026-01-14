@@ -7,6 +7,7 @@ interface FileUploadProps {
   accept?: string;
   maxSize?: number; // in bytes
   onChange: (file: File | null) => void;
+  onError?: (message: string) => void;
   error?: string;
   hint?: string;
   className?: string;
@@ -16,26 +17,38 @@ export function FileUpload({
   accept = 'image/*',
   maxSize = 5 * 1024 * 1024, // 5MB
   onChange,
+  onError,
   error,
   hint,
   className,
 }: FileUploadProps) {
   const [isDragging, setIsDragging] = React.useState(false);
   const [preview, setPreview] = React.useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [localError, setLocalError] = React.useState<string | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File | null) => {
     if (!file) {
       setPreview(null);
+      setSelectedFile(null);
+      setLocalError(null);
       onChange(null);
       return;
     }
 
     if (file.size > maxSize) {
-      console.error('File too large');
+      const message = `File is too large. Max ${Math.round(maxSize / 1024 / 1024)}MB.`;
+      setLocalError(message);
+      setPreview(null);
+      setSelectedFile(null);
+      onError?.(message);
+      onChange(null);
       return;
     }
 
+    setLocalError(null);
+    setSelectedFile(file);
     onChange(file);
     
     if (file.type.startsWith('image/')) {
@@ -64,7 +77,7 @@ export function FileUpload({
           isDragging
             ? 'border-forge-orange bg-forge-orange/10'
             : 'border-white/20 hover:border-white/40 bg-white/5',
-          error && 'border-red-500',
+          (error || localError) && 'border-red-500',
           className
         )}
       >
@@ -76,7 +89,29 @@ export function FileUpload({
           className="hidden"
         />
         {preview ? (
-          <img src={preview} alt="Preview" className="max-h-32 rounded-lg" />
+          <div className="flex flex-col items-center gap-3">
+            <img src={preview} alt="Preview" className="max-h-32 rounded-lg" />
+            {selectedFile && (
+              <div className="text-center">
+                <p className="text-sm text-white/70 truncate max-w-[240px]">{selectedFile.name}</p>
+                <p className="text-xs text-white/40">{Math.round(selectedFile.size / 1024)}KB</p>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (inputRef.current) inputRef.current.value = '';
+                handleFile(null);
+              }}
+              className={cn(
+                'px-3 py-1.5 rounded-lg text-sm transition-colors',
+                'bg-white/10 hover:bg-white/15 text-white/80'
+              )}
+            >
+              Remove
+            </button>
+          </div>
         ) : (
           <>
             <svg className="w-10 h-10 text-white/30 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +122,7 @@ export function FileUpload({
           </>
         )}
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {(error || localError) && <p className="text-sm text-red-400">{error || localError}</p>}
       {hint && !error && <p className="text-sm text-white/40">{hint}</p>}
     </div>
   );
