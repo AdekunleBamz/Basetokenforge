@@ -20,7 +20,7 @@ interface UseFormReturn<T> {
   submitForm: () => Promise<void>;
 }
 
-export function useForm<T extends Record<string, any>>({
+export function useForm<T extends Record<string, unknown>>({
   initialValues,
   validate,
   onSubmit,
@@ -40,7 +40,7 @@ export function useForm<T extends Record<string, any>>({
   const handleChange = useCallback(
     (field: keyof T) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-      setValues((prev) => ({ ...prev, [field]: value }));
+      setValues((prev) => ({ ...prev, [field]: value as T[keyof T] }));
       // Clear error when user starts typing
       if (errors[field]) {
         setErrors((prev) => ({ ...prev, [field]: undefined }));

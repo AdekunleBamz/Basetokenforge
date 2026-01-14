@@ -19,7 +19,7 @@ interface DataTableProps<T> {
   className?: string;
 }
 
-export function DataTable<T extends Record<string, any>>({
+export function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
   keyExtractor,
@@ -68,7 +68,7 @@ export function DataTable<T extends Record<string, any>>({
             <tr key={keyExtractor(item)} className="border-b border-white/10 last:border-0 hover:bg-white/5 transition-colors">
               {columns.map((col) => (
                 <td key={col.key} className={cn('px-4 py-4 text-sm text-white', col.className)}>
-                  {col.render ? col.render(item) : item[col.key]}
+                  {col.render ? col.render(item) : String((item as Record<string, unknown>)[col.key] ?? '')}
                 </td>
               ))}
             </tr>

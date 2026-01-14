@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils/cn';
-import { Card, CardHeader, CardContent } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { Badge } from '@/components/ui/Badge';

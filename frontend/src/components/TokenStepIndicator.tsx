@@ -22,6 +22,15 @@ export function TokenStepIndicator({
 }: TokenStepIndicatorProps) {
   return (
     <div className={cn('w-full', className)}>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm text-white/60">
+          Step <span className="text-white/80 font-medium">{currentStep}</span> of{' '}
+          <span className="text-white/80 font-medium">{totalSteps}</span>
+        </p>
+        <p className="text-sm text-white/40">
+          {Math.max(0, Math.min(100, Math.round((currentStep / Math.max(totalSteps, 1)) * 100)))}%
+        </p>
+      </div>
       {/* Progress bar */}
       <div className="flex items-center justify-between mb-6">
         {steps.map((step, index) => {
@@ -88,7 +97,7 @@ export function TokenStepIndicator({
       {/* Current step description */}
       {steps[currentStep - 1]?.description && (
         <div className="text-center">
-          <Badge variant="secondary">
+          <Badge variant="info">
             {steps[currentStep - 1].description}
           </Badge>
         </div>

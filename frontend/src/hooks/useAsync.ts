@@ -9,12 +9,12 @@ interface UseAsyncReturn<T> {
   data: T | null;
   error: Error | null;
   isLoading: boolean;
-  execute: (...args: any[]) => Promise<T | void>;
+  execute: (...args: unknown[]) => Promise<T | void>;
   reset: () => void;
 }
 
 export function useAsync<T>(
-  asyncFunction: (...args: any[]) => Promise<T>,
+  asyncFunction: (...args: unknown[]) => Promise<T>,
   options: UseAsyncOptions = {}
 ): UseAsyncReturn<T> {
   const [data, setData] = useState<T | null>(null);
@@ -22,7 +22,7 @@ export function useAsync<T>(
   const [isLoading, setIsLoading] = useState(false);
 
   const execute = useCallback(
-    async (...args: any[]) => {
+    async (...args: unknown[]) => {
       setIsLoading(true);
       setError(null);
 

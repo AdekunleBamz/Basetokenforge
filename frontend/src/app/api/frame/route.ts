@@ -22,7 +22,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   // Handle frame interactions
-  const body = await request.json();
+  await request.json();
   
   // For now, just redirect to the main app
   return NextResponse.json({

@@ -60,7 +60,7 @@ export function AppKitProvider({
         await sdk.context;
         // Call ready() to hide splash screen - this is critical!
         sdk.actions.ready();
-      } catch (e) {
+      } catch {
         // Not in Farcaster, that's ok
         console.log("Not in Farcaster frame");
       }

@@ -42,7 +42,7 @@ export function TokenListEmpty({
             No tokens yet
           </h3>
           <p className="text-white/60 mb-6 max-w-sm mx-auto">
-            You haven't created any tokens yet. Start by creating your first token on Base!
+            You haven&apos;t created any tokens yet. Start by creating your first token on Base!
           </p>
           {onCreateClick && (
             <Button
