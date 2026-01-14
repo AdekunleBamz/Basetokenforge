@@ -45,6 +45,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
+    const hasLeftIcon = leftIcon !== null && leftIcon !== undefined && leftIcon !== false;
+    const hasRightIcon = rightIcon !== null && rightIcon !== undefined && rightIcon !== false;
 
     return (
       <div className={cn('space-y-2', fullWidth && 'w-full')}>
@@ -57,7 +59,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div className="relative">
-          {leftIcon && (
+          {hasLeftIcon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40">
               {leftIcon}
             </div>
@@ -71,14 +73,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'focus:outline-none focus:ring-2 focus:ring-forge-orange/20',
               sizeStyles[size],
               variantStyles[variant],
-              leftIcon && 'pl-10',
-              rightIcon && 'pr-10',
+              hasLeftIcon && 'pl-10',
+              hasRightIcon && 'pr-10',
               error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
               className
             )}
             {...props}
           />
-          {rightIcon && (
+          {hasRightIcon && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40">
               {rightIcon}
             </div>

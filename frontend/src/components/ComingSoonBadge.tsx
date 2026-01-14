@@ -15,7 +15,7 @@ export function ComingSoonBadge({
 }: ComingSoonBadgeProps) {
   return (
     <Badge
-      variant="secondary"
+      variant="info"
       className={cn(
         'bg-gradient-to-r from-purple-500/20 to-blue-500/20',
         'border-purple-500/30 text-purple-300',
