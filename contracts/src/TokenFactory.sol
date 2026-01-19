@@ -5,10 +5,24 @@ import "./ForgeToken.sol";
 
 /**
  * @title TokenFactory
- * @dev Factory contract for deploying ERC20 tokens on Base mainnet
+ * @author Base Token Forge
+ * @notice Factory contract for deploying ERC20 tokens on Base L2
+ * @dev This factory enables anyone to create standard ERC20 tokens on Base
+ *      with minimal gas costs. Key features:
+ *      - One-click token deployment
+ *      - Configurable creation fee
+ *      - Token tracking by creator
+ *      - Recent tokens query
+ * 
+ * Base Network Benefits:
+ * - Gas costs ~100x lower than Ethereum mainnet
+ * - Fast block times (~2 seconds)
+ * - Ethereum security via L2 rollup
  */
 contract TokenFactory {
-    // Events
+    // ============ Events ============
+    
+    /// @notice Emitted when a new token is created
     event TokenCreated(
         address indexed tokenAddress,
         address indexed creator,
@@ -18,26 +32,58 @@ contract TokenFactory {
         uint256 initialSupply,
         uint256 timestamp
     );
+    
+    /// @notice Emitted when the creation fee is updated
+    event CreationFeeUpdated(uint256 oldFee, uint256 newFee);
+    
+    /// @notice Emitted when the fee recipient is updated
+    event FeeRecipientUpdated(address oldRecipient, address newRecipient);
+    
+    /// @notice Emitted when ownership is transferred
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    // State
+    // ============ State Variables ============
+    
+    /// @notice Array of all deployed token addresses
     address[] public deployedTokens;
+    
+    /// @notice Mapping of creator address to their deployed tokens
     mapping(address => address[]) public tokensByCreator;
     
-    // Fee configuration
+    /// @notice Fee required to create a new token (in wei)
     uint256 public creationFee;
+    
+    /// @notice Address that receives creation fees
     address public feeRecipient;
+    
+    /// @notice Contract owner address
     address public owner;
     
-    // Modifiers
+    /// @notice Total fees collected (for analytics)
+    uint256 public totalFeesCollected;
+
+    // ============ Modifiers ============
+    
     modifier onlyOwner() {
-        require(msg.sender == owner, "Not owner");
+        require(msg.sender == owner, "TokenFactory: caller is not the owner");
         _;
     }
     
+    // ============ Constructor ============
+    
+    /**
+     * @notice Initializes the TokenFactory
+     * @param _creationFee Initial fee for token creation (in wei)
+     * @param _feeRecipient Address to receive creation fees
+     */
     constructor(uint256 _creationFee, address _feeRecipient) {
+        require(_feeRecipient != address(0), "TokenFactory: invalid fee recipient");
+        
         owner = msg.sender;
         creationFee = _creationFee;
         feeRecipient = _feeRecipient;
+        
+        emit OwnershipTransferred(address(0), msg.sender);
     }
     
     /**
