@@ -1,15 +1,39 @@
 /**
- * Application-wide constants
+ * Application-wide constants for Base Token Forge
+ * 
+ * Base Token Forge is deployed on Base L2 (Chain ID: 8453)
+ * https://base.org
  */
 
-// Chain configuration
-export const CHAIN_ID = 8453; // Base Mainnet
+// ============ Base Chain Configuration ============
+
+// Base Mainnet Configuration
+export const CHAIN_ID = 8453;
 export const CHAIN_NAME = 'Base';
 export const CHAIN_SYMBOL = 'ETH';
+export const CHAIN_RPC = 'https://mainnet.base.org';
+
+// Base Sepolia (Testnet) Configuration
+export const TESTNET_CHAIN_ID = 84532;
+export const TESTNET_CHAIN_NAME = 'Base Sepolia';
+export const TESTNET_RPC = 'https://sepolia.base.org';
 
 // Block explorer
 export const EXPLORER_URL = 'https://basescan.org';
 export const EXPLORER_NAME = 'Basescan';
+export const TESTNET_EXPLORER_URL = 'https://sepolia.basescan.org';
+
+// Base Network Info
+export const BASE_NETWORK_INFO = {
+  name: 'Base',
+  description: 'Base is a secure, low-cost, builder-friendly Ethereum L2 built by Coinbase.',
+  avgBlockTime: 2, // seconds
+  avgGasPrice: 0.001, // gwei
+  website: 'https://base.org',
+  docs: 'https://docs.base.org',
+  bridge: 'https://bridge.base.org',
+  status: 'https://status.base.org',
+} as const;
 
 // Token defaults
 export const DEFAULT_DECIMALS = 18;
