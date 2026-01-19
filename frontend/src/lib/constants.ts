@@ -101,18 +101,66 @@ export const FEATURES = [
   },
 ] as const;
 
-// Error messages
+// ============ Error Messages ============
 export const ERROR_MESSAGES = {
   walletNotConnected: 'Please connect your wallet first',
   invalidForm: 'Please fill in all required fields',
   transactionFailed: 'Transaction failed. Please try again.',
   networkError: 'Network error. Please check your connection.',
   insufficientFunds: 'Insufficient funds for this transaction',
+  wrongNetwork: 'Please switch to Base network',
+  userRejected: 'Transaction was rejected by user',
+  gasEstimationFailed: 'Failed to estimate gas. Please try again.',
+  contractError: 'Contract execution failed',
+  tokenNameTooLong: `Token name must be ${64} characters or less`,
+  tokenSymbolTooLong: `Token symbol must be ${11} characters or less`,
+  invalidSupply: 'Initial supply must be greater than 0',
+  invalidDecimals: 'Decimals must be between 0 and 18',
 } as const;
 
-// Success messages
+// ============ Success Messages ============
 export const SUCCESS_MESSAGES = {
-  tokenCreated: 'Token created successfully!',
+  tokenCreated: 'Token created successfully on Base!',
   addressCopied: 'Address copied to clipboard',
-  transactionSubmitted: 'Transaction submitted',
+  transactionSubmitted: 'Transaction submitted to Base network',
+  transactionConfirmed: 'Transaction confirmed on Base',
+  walletConnected: 'Wallet connected successfully',
+  networkSwitched: 'Switched to Base network',
 } as const;
+
+// ============ Info Messages ============
+export const INFO_MESSAGES = {
+  pendingTransaction: 'Waiting for confirmation on Base...',
+  estimatingGas: 'Estimating gas costs...',
+  preparingTransaction: 'Preparing transaction...',
+  connectWallet: 'Connect your wallet to get started',
+  switchNetwork: 'Switch to Base network to continue',
+} as const;
+
+// ============ FAQ Items ============
+export const FAQ_ITEMS = [
+  {
+    question: 'What is Base Token Forge?',
+    answer: 'Base Token Forge is a no-code tool that allows you to deploy ERC20 tokens on Base mainnet in seconds. No programming knowledge required.',
+  },
+  {
+    question: 'What is Base?',
+    answer: 'Base is a secure, low-cost, builder-friendly Ethereum L2 built by Coinbase. It offers fast transactions and extremely low gas fees.',
+  },
+  {
+    question: 'How much does it cost to create a token?',
+    answer: 'Creating a token costs approximately $0.01-0.05 in gas fees on Base, plus a small creation fee. This is 100x cheaper than Ethereum mainnet.',
+  },
+  {
+    question: 'Is my token verified on Basescan?',
+    answer: 'All tokens created through Base Token Forge use a verified contract template. Your token will be visible on Basescan immediately after creation.',
+  },
+  {
+    question: 'Can I modify my token after creation?',
+    answer: 'ERC20 tokens are immutable once deployed. The name, symbol, and total supply cannot be changed. However, as the owner, you can burn tokens to reduce supply.',
+  },
+  {
+    question: 'Who owns the tokens after creation?',
+    answer: '100% of the initial supply is sent to your connected wallet address. You have full ownership and control of your tokens.',
+  },
+] as const;
