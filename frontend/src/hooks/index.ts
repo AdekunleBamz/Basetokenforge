@@ -21,3 +21,17 @@ export { useIntersectionObserver } from './useIntersectionObserver';
 export { useTheme } from './useTheme';
 export { useMediaQuery, useIsMobile, useIsTablet, useIsDesktop, usePrefersDarkMode, usePrefersReducedMotion } from './useMediaQuery';
 export { useCountdown } from './useCountdown';
+
+// New Base-specific hooks
+export { useWalletConnection, useSufficientBalance } from './useWalletConnection';
+export { useNetworkStatus } from './useNetworkStatus';
+export { useBaseStats, useL2Savings } from './useBaseStats';
+export { useTokenBalance } from './useTokenBalance';
+export { useTokenCreation } from './useTokenCreation';
+export { useCreatedTokens, useTokenStats } from './useCreatedTokens';
+export { useTransactionStatus, formatDuration, getPhaseInfo } from './useTransactionStatus';
+export { useTransactionHistory } from './useTransactionHistory';
+export { useGasEstimate } from './useGasEstimate';
+export { useFactoryStats } from './useFactoryStats';
+export { useUserPreferences } from './useUserPreferences';
+
