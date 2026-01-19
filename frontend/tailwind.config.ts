@@ -42,6 +42,12 @@ const config: Config = {
         "shimmer": "shimmer 2s linear infinite",
         "bounce-slow": "bounce 2s infinite",
         "spin-slow": "spin 3s linear infinite",
+        "confetti-fall": "confetti-fall 2s ease-out forwards",
+        "success-circle-draw": "success-circle-draw 0.5s ease-out forwards",
+        "success-check-draw": "success-check-draw 0.3s ease-out 0.4s forwards",
+        "burst": "burst 0.6s ease-out forwards",
+        "fade-in-up": "fade-in-up 0.4s ease-out forwards",
+        "scale-in": "scale-in 0.3s ease-out forwards",
       },
       keyframes: {
         "pulse-glow": {
@@ -59,6 +65,30 @@ const config: Config = {
         "shimmer": {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
+        },
+        "confetti-fall": {
+          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(100vh) rotate(720deg)", opacity: "0" },
+        },
+        "success-circle-draw": {
+          "0%": { strokeDashoffset: "283" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        "success-check-draw": {
+          "0%": { strokeDashoffset: "60" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        "burst": {
+          "0%": { transform: "translateX(-50%) rotate(var(--rotation)) scaleY(0)", opacity: "1" },
+          "100%": { transform: "translateX(-50%) rotate(var(--rotation)) scaleY(1)", opacity: "0" },
+        },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-in": {
+          "0%": { opacity: "0", transform: "scale(0.9)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
         },
       },
       backgroundImage: {
