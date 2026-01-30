@@ -26,8 +26,8 @@ export function GasTracker() {
 
   // Determine gas status based on price
   const getGasStatus = () => {
-    if (data.gwei < 0.01) return { label: 'Very Low', color: 'text-green-400', bg: 'bg-green-500' };
-    if (data.gwei < 0.1) return { label: 'Low', color: 'text-green-400', bg: 'bg-green-500' };
+    if (data.gwei < 0.01) return { label: 'Very Low', color: 'text-green-400', bg: 'bg-green-500', glow: 'shadow-green-500/50' };
+    if (data.gwei < 0.1) return { label: 'Low', color: 'text-green-400', bg: 'bg-green-500', glow: 'shadow-green-500/50' };
     if (data.gwei < 1) return { label: 'Normal', color: 'text-yellow-400', bg: 'bg-yellow-500' };
     return { label: 'High', color: 'text-red-400', bg: 'bg-red-500' };
   };
