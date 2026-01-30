@@ -60,7 +60,7 @@ export function Avatar({ src, alt, name, size = 'md', className }: AvatarProps) 
   return (
     <div
       className={cn(
-        'relative rounded-full overflow-hidden flex items-center justify-center',
+        'relative rounded-full overflow-hidden ring-2 ring-transparent hover:ring-primary-blue transition-all flex items-center justify-center',
         'font-display font-bold text-white',
         sizeStyles[size],
         !src && `bg-gradient-to-br ${bgColor}`,
