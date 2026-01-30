@@ -468,3 +468,33 @@ textarea:focus-visible {
     background-position: 0% 50%;
   }
 }
+
+/* Enhanced tooltip with arrow */
+.tooltip-enhanced {
+  position: relative;
+}
+
+.tooltip-enhanced::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-base-gray);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  margin-bottom: -6px;
+}
+
+.tooltip-enhanced:hover::before,
+.tooltip-enhanced:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Tooltip arrow animation */
+.tooltip-enhanced:hover::before {
+  margin-bottom: 0;
+}
