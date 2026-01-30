@@ -42,7 +42,7 @@ interface UseTokenCreationOptions {
   onError?: (error: ParsedError) => void;
 }
 
-const DEFAULT_CREATION_FEE = parseEther('0.0001');
+const DEFAULT_CREATION_FEE = parseEther('0.00005');
 
 export function useTokenCreation(options: UseTokenCreationOptions = {}) {
   const { 
