@@ -8,11 +8,26 @@
 
 interface SkeletonProps {
   className?: string;
+  variant?: 'default' | 'circular' | 'text' | 'button';
 }
 
-export function Skeleton({ className = '' }: SkeletonProps) {
+export function Skeleton({ className = '', variant = 'default' }: SkeletonProps) {
+  const baseClasses = 'animate-pulse bg-gradient-to-r from-white/5 via-white/10 to-white/5 bg-[length:200%_100%]';
+  
+  const variantClasses = {
+    default: 'rounded',
+    circular: 'rounded-full',
+    text: 'rounded h-4',
+    button: 'rounded-xl h-10',
+  };
+  
   return (
-    <div className={`animate-pulse bg-white/10 rounded ${className}`} />
+    <div 
+      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      style={{ animation: 'shimmer 1.5s ease-in-out infinite' }}
+      role="status"
+      aria-label="Loading..."
+    />
   );
 }
 
