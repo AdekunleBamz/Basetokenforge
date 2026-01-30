@@ -301,3 +301,23 @@ body {
   background: rgba(255, 107, 53, 0.4);
   color: #fff;
 }
+
+/* Enhanced button hover effects */
+.btn-forge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.btn-forge:hover::before {
+  opacity: 1;
+}
+
+/* Button active state */
+.btn-forge:active {
+  transform: translateY(0) scale(0.98);
+}
