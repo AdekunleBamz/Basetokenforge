@@ -10,17 +10,17 @@ interface GlowCardProps {
 }
 
 const GLOW_COLORS = {
-  orange: 'hover:shadow-[0_0_40px_rgba(237,137,54,0.3)]',
-  blue: 'hover:shadow-[0_0_40px_rgba(59,130,246,0.3)]',
-  purple: 'hover:shadow-[0_0_40px_rgba(168,85,247,0.3)]',
-  green: 'hover:shadow-[0_0_40px_rgba(34,197,94,0.3)]',
+  orange: 'hover:shadow-[0_0_40px_rgba(237,137,54,0.3)] focus-within:shadow-[0_0_40px_rgba(237,137,54,0.3)]',
+  blue: 'hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] focus-within:shadow-[0_0_40px_rgba(59,130,246,0.3)]',
+  purple: 'hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] focus-within:shadow-[0_0_40px_rgba(168,85,247,0.3)]',
+  green: 'hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] focus-within:shadow-[0_0_40px_rgba(34,197,94,0.3)]',
 };
 
 const BORDER_COLORS = {
-  orange: 'hover:border-forge-orange/50',
-  blue: 'hover:border-blue-500/50',
-  purple: 'hover:border-purple-500/50',
-  green: 'hover:border-green-500/50',
+  orange: 'hover:border-forge-orange/50 focus-within:border-forge-orange/50',
+  blue: 'hover:border-blue-500/50 focus-within:border-blue-500/50',
+  purple: 'hover:border-purple-500/50 focus-within:border-purple-500/50',
+  green: 'hover:border-green-500/50 focus-within:border-green-500/50',
 };
 
 export function GlowCard({
