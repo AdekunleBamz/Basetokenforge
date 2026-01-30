@@ -45,3 +45,6 @@ contracts/out/
 
 # Generated wallet script (can regenerate)
 gen-wallets.js
+
+# internal tools
+internal/

@@ -19,5 +19,22 @@
     "mini-app"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdekunleBamz/Basetokenforge.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AdekunleBamz/Basetokenforge/issues"
+  },
+  "homepage": "https://github.com/AdekunleBamz/Basetokenforge#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "viem": "^2.45.1"
+  }
 }
