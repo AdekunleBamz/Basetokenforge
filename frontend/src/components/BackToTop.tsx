@@ -39,11 +39,14 @@ export function BackToTop({
         'fixed bottom-8 right-8 z-50 p-3 rounded-full',
         'bg-forge-orange hover:bg-forge-orange/80 text-white',
         'shadow-lg shadow-forge-orange/25',
-        'transition-all duration-300',
+        'transition-all duration-300 transform',
         'hover:scale-110 active:scale-95',
+        'animate-in fade-in slide-in-from-bottom',
+        'focus:outline-none focus:ring-2 focus:ring-forge-orange/50 focus:ring-offset-2 focus:ring-offset-base-dark',
         className
       )}
-      aria-label="Back to top"
+      aria-label="Scroll back to top"
+      title="Back to top"
     >
       <svg
         className="w-6 h-6"
