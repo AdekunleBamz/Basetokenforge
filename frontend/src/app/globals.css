@@ -357,3 +357,22 @@ textarea:focus-visible {
   opacity: 0.5;
   transform: translateX(4px);
 }
+
+/* Enhanced card hover with subtle glow */
+.card-forge {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.card-forge:hover {
+  box-shadow: 
+    0 0 0 1px rgba(255, 107, 53, 0.2),
+    0 8px 30px rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(255, 107, 53, 0.1);
+}
+
+/* Card content lift effect */
+.card-forge:hover > * {
+  transform: translateY(-1px);
+  transition: transform 0.3s ease;
+}
