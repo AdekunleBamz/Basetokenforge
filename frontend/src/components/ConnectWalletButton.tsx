@@ -31,15 +31,21 @@ export function ConnectWalletButton({
 }: ConnectWalletButtonProps) {
   if (isConnected && address && showAddress) {
     return (
-      <Button
-        variant="secondary"
-        size={size}
-        onClick={onDisconnect || onConnect}
-        className={cn('font-mono', className)}
-        leftIcon={<IconWallet size={18} />}
-      >
-        {truncateAddress(address)}
-      </Button>
+      <div className="flex items-center gap-2">
+        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-500/10 border border-green-500/30">
+          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <span className="text-green-400 text-xs">Base</span>
+        </div>
+        <Button
+          variant="secondary"
+          size={size}
+          onClick={onDisconnect || onConnect}
+          className={cn('font-mono', className)}
+          leftIcon={<IconWallet size={18} />}
+        >
+          {truncateAddress(address)}
+        </Button>
+      </div>
     );
   }
 
