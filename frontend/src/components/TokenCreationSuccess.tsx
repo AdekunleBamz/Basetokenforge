@@ -168,6 +168,31 @@ export function TokenCreationSuccess({
         </button>
       </div>
 
+      {/* Quick Actions */}
+      <div className="mt-4 p-4 bg-white/5 rounded-xl border border-white/10">
+        <p className="text-white/60 text-sm mb-3">Next Steps</p>
+        <div className="grid grid-cols-2 gap-2">
+          <a
+            href={`https://app.uniswap.org/add/${tokenAddress}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-sm text-white/80 transition-colors"
+          >
+            <span>🦄</span>
+            <span>Add Liquidity</span>
+          </a>
+          <a
+            href={`https://twitter.com/intent/tweet?text=Just%20created%20my%20${tokenSymbol}%20token%20on%20@base%20using%20@BaseTokenForge%20%F0%9F%94%A5&url=${getTokenUrl(tokenAddress)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-sm text-white/80 transition-colors"
+          >
+            <span>🐦</span>
+            <span>Share on X</span>
+          </a>
+        </div>
+      </div>
+
       {/* Network Badge */}
       <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 bg-base-blue/10 border border-base-blue/30 rounded-full">
         <div className="w-2 h-2 rounded-full bg-base-blue" />
