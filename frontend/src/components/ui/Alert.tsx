@@ -42,7 +42,7 @@ export function Alert({
       role="alert"
     >
       <svg
-        className="w-5 h-5 shrink-0 mt-0.5"
+        className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform group-hover:animate-pulse mt-0.5"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -63,7 +63,7 @@ export function Alert({
       {onClose && (
         <button
           onClick={onClose}
-          className="shrink-0 opacity-60 hover:opacity-100 transition-opacity"
+          className="shrink-0 group-hover:scale-110 transition-transform group-hover:animate-pulse opacity-60 hover:opacity-100 transition-opacity"
         >
           <svg
             className="w-5 h-5"
