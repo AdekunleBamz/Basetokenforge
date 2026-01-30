@@ -69,7 +69,7 @@ export function Tooltip({
           className={cn(
             'absolute z-50 px-3 py-2 rounded-lg bg-base-gray border border-white/10',
             'text-sm text-white whitespace-nowrap shadow-lg',
-            'animate-in fade-in duration-150',
+            'animate-in fade-in zoom-in-95 duration-200',
             positionStyles[position],
             className
           )}
