@@ -61,7 +61,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center transition-transform duration-300 hover:rotate-12">
             <svg
               className="w-6 h-6 text-base-dark"
               fill="currentColor"
