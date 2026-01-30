@@ -10,13 +10,13 @@ interface NetworkBadgeProps {
   className?: string;
 }
 
-const NETWORKS: Record<number, { name: string; color: string; icon: string }> = {
-  1: { name: 'Ethereum', color: 'bg-blue-500', icon: '⟠' },
-  8453: { name: 'Base', color: 'bg-blue-600', icon: '🔵' },
-  84532: { name: 'Base Sepolia', color: 'bg-blue-400', icon: '🔵' },
-  137: { name: 'Polygon', color: 'bg-purple-500', icon: '⬡' },
-  10: { name: 'Optimism', color: 'bg-red-500', icon: '🔴' },
-  42161: { name: 'Arbitrum', color: 'bg-blue-700', icon: '🔷' },
+const NETWORKS: Record<number, { name: string; color: string; icon: string; bgColor: string }> = {
+  1: { name: 'Ethereum', color: 'bg-blue-500', bgColor: 'bg-blue-500/10 border-blue-500/30', icon: '⟠' },
+  8453: { name: 'Base', color: 'bg-blue-600', bgColor: 'bg-blue-600/10 border-blue-600/30', icon: '🔵' },
+  84532: { name: 'Base Sepolia', color: 'bg-blue-400', bgColor: 'bg-blue-400/10 border-blue-400/30', icon: '🔵' },
+  137: { name: 'Polygon', color: 'bg-purple-500', bgColor: 'bg-purple-500/10 border-purple-500/30', icon: '⬡' },
+  10: { name: 'Optimism', color: 'bg-red-500', bgColor: 'bg-red-500/10 border-red-500/30', icon: '🔴' },
+  42161: { name: 'Arbitrum', color: 'bg-blue-700', bgColor: 'bg-blue-700/10 border-blue-700/30', icon: '🔷' },
 };
 
 const SIZE_CLASSES = {
@@ -34,14 +34,16 @@ export function NetworkBadge({
   const network = NETWORKS[chainId] || {
     name: `Chain ${chainId}`,
     color: 'bg-gray-500',
+    bgColor: 'bg-gray-500/10 border-gray-500/30',
     icon: '?',
   };
 
   return (
     <span
       className={cn(
-        'inline-flex items-center font-medium rounded-full',
+        'inline-flex items-center font-medium rounded-full border',
         SIZE_CLASSES[size],
+        network.bgColor,
         className
       )}
     >
