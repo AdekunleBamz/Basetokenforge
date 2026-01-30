@@ -42,7 +42,7 @@ export function ShareButtons({
         </svg>
       ),
       getUrl: () => getTwitterShareUrl(text, url),
-      color: 'hover:bg-black hover:text-white',
+      color: 'hover:bg-black hover:text-white hover:scale-110 hover:-translate-y-1',
     },
     {
       name: 'Farcaster',
