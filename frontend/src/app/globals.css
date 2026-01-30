@@ -659,3 +659,32 @@ textarea:focus-visible {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  .btn-forge:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .btn-forge:active {
+    transform: scale(0.98);
+    background: linear-gradient(135deg, #E86030 0%, #D9B340 100%);
+  }
+  
+  .card-forge:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Increase tap targets on mobile */
+  button, a, input, select {
+    min-height: 44px;
+  }
+  
+  /* Disable hover effects that might cause sticky states */
+  .input-forge:hover:not(:focus):not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 32, 37, 0.5);
+  }
+}
