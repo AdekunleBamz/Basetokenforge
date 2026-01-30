@@ -91,7 +91,7 @@ export function ConnectPrompt({
     <div className={`flex flex-col items-center justify-center py-16 ${className}`}>
       {/* Animated background */}
       <div className="relative mb-8">
-        <div className="absolute inset-0 blur-3xl bg-base-blue/20 rounded-full animate-pulse" />
+        <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-base-blue/20 via-primary-blue/30 to-base-blue/20 rounded-full animate-pulse" />
         <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-base-blue/30 to-purple-500/30 border border-white/10 flex items-center justify-center">
           <svg
             className="w-12 h-12 text-base-blue"
