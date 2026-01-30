@@ -6,17 +6,30 @@ import { TokenCreator } from "@/components/TokenCreator";
 import { MyTokens } from "@/components/MyTokens";
 import { Footer } from "@/components/Footer";
 import { FarcasterBanner } from "@/components/FarcasterProvider";
+import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
+import { useAppShortcuts } from "@/hooks/useKeyboardShortcuts";
 
-export default function Home() {
+function AppContent() {
+  // Enable keyboard shortcuts
+  useAppShortcuts();
+
   return (
-    <main className="forge-bg min-h-screen">
+    <>
       <FarcasterBanner />
       <Header />
       <Hero />
       <TokenCreator />
       <MyTokens />
       <Footer />
-    </main>
+      <KeyboardShortcutsHelp />
+    </>
   );
 }
 
+export default function Home() {
+  return (
+    <main className="forge-bg min-h-screen">
+      <AppContent />
+    </main>
+  );
+}
