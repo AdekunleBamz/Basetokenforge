@@ -78,7 +78,7 @@ export function ExtendedStatsSection({ className }: { className?: string }) {
           {extendedStats.map((stat) => (
             <div
               key={stat.label}
-              className="glass rounded-2xl p-6 text-center"
+              className="glass rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 hover:border-forge-orange/30 cursor-default"
             >
               <div className="font-display font-bold text-4xl text-forge-orange mb-2">
                 {stat.value}
