@@ -33,6 +33,10 @@ export function CopyButton({
     if (success) {
       setCopied(true);
       onCopy?.();
+      // Haptic feedback on mobile if available
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
       setTimeout(() => setCopied(false), 2000);
     }
   }, [text, onCopy]);
