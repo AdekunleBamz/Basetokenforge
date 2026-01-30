@@ -38,7 +38,8 @@ export function Accordion({
   };
 
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn(
+            'group','space-y-2', className)}>
       {items.map((item) => (
         <AccordionItemComponent
           key={item.id}
@@ -67,6 +68,7 @@ function AccordionItemComponent({
       <button
         onClick={onToggle}
         className={cn(
+            'group',
           'w-full flex items-center justify-between gap-4 p-4',
           'text-left font-medium text-white',
           'hover:bg-white/5 transition-colors',
@@ -78,6 +80,7 @@ function AccordionItemComponent({
         <IconChevronDown
           size={20}
           className={cn(
+            'group',
             'text-white/40 transition-transform duration-200',
             isOpen && 'rotate-180'
           )}
@@ -85,8 +88,9 @@ function AccordionItemComponent({
       </button>
       <div
         className={cn(
-          'overflow-hidden transition-all duration-200',
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            'group',
+          'overflow-hidden transition-all duration-300 ease-out',
+          isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         )}
       >
         <div className="p-4 pt-0 text-white/70">{item.content}</div>
