@@ -51,6 +51,11 @@ export function Modal({
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
+      // Focus trap: focus the modal when opened
+      const modal = document.querySelector('[role="dialog"]');
+      if (modal instanceof HTMLElement) {
+        modal.focus();
+      }
     }
 
     return () => {
