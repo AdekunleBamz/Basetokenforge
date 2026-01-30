@@ -28,12 +28,13 @@ export function SearchInput({
   };
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative group', className)}>
       <svg
-        className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40"
+        className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 group-focus-within:text-forge-orange transition-colors"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           strokeLinecap="round"
@@ -43,22 +44,24 @@ export function SearchInput({
         />
       </svg>
       <input
-        type="text"
+        type="search"
         value={value}
         onChange={handleChange}
         className={cn(
           'w-full pl-10 pr-10 py-3 rounded-xl',
           'bg-white/5 border border-white/10 text-white',
           'placeholder:text-white/40',
-          'focus:border-forge-orange focus:outline-none',
-          'transition-colors'
+          'focus:border-forge-orange focus:outline-none focus:ring-2 focus:ring-forge-orange/20',
+          'transition-all duration-200'
         )}
+        aria-label="Search"
         {...props}
       />
       {value && !isLoading && (
         <button
           onClick={handleClear}
           className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded transition-colors"
+          aria-label="Clear search"
         >
           <svg className="w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -66,7 +69,7 @@ export function SearchInput({
         </button>
       )}
       {isLoading && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 border-2 border-white/20 border-t-forge-orange rounded-full animate-spin" />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 border-2 border-white/20 border-t-forge-orange rounded-full animate-spin" aria-hidden="true" />
       )}
     </div>
   );
