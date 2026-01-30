@@ -403,3 +403,23 @@ textarea:focus-visible {
   animation: stagger-fade-up 0.5s ease-out forwards;
   opacity: 0;
 }
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .particle {
+    animation: none !important;
+  }
+  
+  .spinner {
+    animation: spin 0.8s linear infinite !important;
+  }
+}
