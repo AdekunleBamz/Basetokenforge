@@ -321,3 +321,23 @@ body {
 .btn-forge:active {
   transform: translateY(0) scale(0.98);
 }
+
+/* Improved focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-forge-orange);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-forge-orange);
+  outline-offset: 2px;
+}
+
+/* Remove default focus outline when not keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
