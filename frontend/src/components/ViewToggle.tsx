@@ -11,28 +11,38 @@ interface ViewToggleProps {
 
 export function ViewToggle({ view, onChange, className }: ViewToggleProps) {
   return (
-    <div className={cn('flex rounded-lg bg-white/5 border border-white/10 p-1', className)}>
+    <div 
+      role="group" 
+      aria-label="View toggle"
+      className={cn('flex rounded-lg bg-white/5 border border-white/10 p-1', className)}
+    >
       <button
         onClick={() => onChange('grid')}
+        aria-pressed={view === 'grid'}
         className={cn(
-          'p-2 rounded transition-colors',
-          view === 'grid' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white'
+          'p-2 rounded transition-all focus:outline-none focus:ring-2 focus:ring-forge-orange/50',
+          view === 'grid' 
+            ? 'bg-forge-orange/20 text-forge-orange' 
+            : 'text-white/40 hover:text-white hover:bg-white/5'
         )}
         aria-label="Grid view"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
         </svg>
       </button>
       <button
         onClick={() => onChange('list')}
+        aria-pressed={view === 'list'}
         className={cn(
-          'p-2 rounded transition-colors',
-          view === 'list' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white'
+          'p-2 rounded transition-all focus:outline-none focus:ring-2 focus:ring-forge-orange/50',
+          view === 'list' 
+            ? 'bg-forge-orange/20 text-forge-orange' 
+            : 'text-white/40 hover:text-white hover:bg-white/5'
         )}
         aria-label="List view"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
         </svg>
       </button>
