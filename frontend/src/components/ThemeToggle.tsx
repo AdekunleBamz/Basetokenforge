@@ -18,21 +18,25 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   return (
     <button
       onClick={toggleTheme}
+      role="switch"
+      aria-checked={!isDark}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       className={cn(
         'relative w-14 h-7 rounded-full transition-colors duration-300',
-        isDark ? 'bg-white/10' : 'bg-forge-orange/20',
+        'focus:outline-none focus:ring-2 focus:ring-forge-orange/50 focus:ring-offset-2 focus:ring-offset-forge-dark',
+        isDark ? 'bg-white/10 hover:bg-white/15' : 'bg-forge-orange/20 hover:bg-forge-orange/30',
         className
       )}
-      aria-label="Toggle theme"
     >
       <span
         className={cn(
           'absolute top-1 w-5 h-5 rounded-full transition-all duration-300',
-          'flex items-center justify-center',
+          'flex items-center justify-center shadow-lg',
           isDark
             ? 'left-1 bg-slate-700'
             : 'left-8 bg-forge-orange'
         )}
+        aria-hidden="true"
       >
         {isDark ? (
           <svg className="w-3 h-3 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
