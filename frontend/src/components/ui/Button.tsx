@@ -45,7 +45,7 @@ export function Button({
       className={cn(
         'relative inline-flex items-center justify-center gap-2',
         'font-display font-semibold rounded-xl',
-        'transition-all duration-300',
+        'transition-all duration-300 active:scale-95',
         'disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none',
         variantStyles[variant],
         sizeStyles[size],
