@@ -341,3 +341,19 @@ textarea:focus-visible {
 :focus:not(:focus-visible) {
   outline: none;
 }
+
+/* Enhanced input interactions */
+.input-forge:hover:not(:focus):not(:disabled) {
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(30, 32, 37, 0.7);
+}
+
+/* Animated placeholder fade */
+.input-forge::placeholder {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.input-forge:focus::placeholder {
+  opacity: 0.5;
+  transform: translateX(4px);
+}
