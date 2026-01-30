@@ -117,9 +117,19 @@ export function CreationStepDetails() {
 
       {/* Decimals */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">
-          Decimals
-        </label>
+        <div className="flex items-center gap-2">
+          <label className="block text-sm font-medium text-white/80">
+            Decimals
+          </label>
+          <div className="group relative">
+            <svg className="w-4 h-4 text-white/40 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-base-gray text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-48 text-center z-10">
+              Decimals determine how divisible your token is. 18 is the Ethereum standard.
+            </div>
+          </div>
+        </div>
         <div className="flex gap-2">
           {[0, 8, 9, 18].map((dec) => (
             <button
@@ -129,7 +139,7 @@ export function CreationStepDetails() {
               className={`
                 flex-1 px-4 py-3 rounded-xl font-medium transition-all
                 ${formData.decimals === dec
-                  ? 'bg-base-blue text-white'
+                  ? 'bg-base-blue text-white shadow-lg shadow-base-blue/25'
                   : 'bg-white/5 text-white/60 hover:bg-white/10 border border-white/10'
                 }
               `}
@@ -139,7 +149,10 @@ export function CreationStepDetails() {
           ))}
         </div>
         <p className="text-xs text-white/40">
-          18 decimals is standard for most tokens. Use 0 for NFT-like tokens.
+          {formData.decimals === 18 && "Standard for most tokens (recommended)"}
+          {formData.decimals === 8 && "Same as Bitcoin"}
+          {formData.decimals === 9 && "Common for meme tokens"}
+          {formData.decimals === 0 && "Non-divisible, good for NFT-like tokens"}
         </p>
       </div>
 
