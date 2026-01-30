@@ -21,12 +21,14 @@ export function FilterChip({
   return (
     <button
       onClick={onClick}
+      aria-pressed={isActive}
       className={cn(
         'inline-flex items-center gap-2 px-4 py-2 rounded-full',
         'text-sm font-medium transition-all',
+        'focus:outline-none focus:ring-2 focus:ring-forge-orange/50 focus:ring-offset-2 focus:ring-offset-forge-dark',
         isActive
-          ? 'bg-forge-orange text-white'
-          : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-white/20',
+          ? 'bg-forge-orange text-white shadow-lg shadow-forge-orange/25'
+          : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-white/20 hover:bg-white/10',
         className
       )}
     >
@@ -34,9 +36,10 @@ export function FilterChip({
       {count !== undefined && (
         <span
           className={cn(
-            'px-1.5 py-0.5 rounded-full text-xs',
+            'px-1.5 py-0.5 rounded-full text-xs tabular-nums',
             isActive ? 'bg-white/20' : 'bg-white/10'
           )}
+          aria-label={`${count} items`}
         >
           {count}
         </span>
@@ -49,6 +52,7 @@ interface FilterChipsProps {
   filters: Array<{ id: string; label: string; count?: number }>;
   activeFilters: string[];
   onChange: (filters: string[]) => void;
+  label?: string;
   className?: string;
 }
 
@@ -56,6 +60,7 @@ export function FilterChips({
   filters,
   activeFilters,
   onChange,
+  label = 'Filter options',
   className,
 }: FilterChipsProps) {
   const toggleFilter = (id: string) => {
@@ -67,7 +72,11 @@ export function FilterChips({
   };
 
   return (
-    <div className={cn('flex flex-wrap gap-2', className)}>
+    <div 
+      role="group" 
+      aria-label={label}
+      className={cn('flex flex-wrap gap-2', className)}
+    >
       {filters.map((filter) => (
         <FilterChip
           key={filter.id}
