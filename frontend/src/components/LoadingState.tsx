@@ -41,12 +41,17 @@ export function LoadingState({
         classes.container,
         className
       )}
+      role="status"
+      aria-live="polite"
     >
       <div className={cn('relative', classes.spinner)}>
         <div className="absolute inset-0 rounded-full border-2 border-white/10" />
         <div className="absolute inset-0 rounded-full border-2 border-t-forge-orange animate-spin" />
+        {/* Glow effect */}
+        <div className="absolute inset-0 rounded-full bg-forge-orange/20 blur-xl animate-pulse" />
       </div>
       <p className={cn('mt-4 text-white/60', classes.text)}>{message}</p>
+      <span className="sr-only">Loading, please wait</span>
     </div>
   );
 }
