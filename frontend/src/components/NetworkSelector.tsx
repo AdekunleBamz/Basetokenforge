@@ -61,7 +61,7 @@ export function NetworkSelector({ className = '', showTestnet = true }: NetworkS
         disabled={isPending}
         className={`
           flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/10 rounded-xl
-          hover:border-white/20 transition-all
+          hover:border-white/30 hover:scale-105 transition-all
           ${isPending ? 'opacity-50 cursor-wait' : ''}
         `}
       >
