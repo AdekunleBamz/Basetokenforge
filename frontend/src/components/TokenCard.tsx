@@ -23,7 +23,9 @@ export function TokenCard({ token, className }: TokenCardProps) {
     : '...';
 
   return (
-    <Card variant="interactive" className={cn('group', className)}>
+    <Card variant="interactive" className={cn('group relative overflow-visible', className)}>
+      {/* Gradient border effect on hover */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-forge-orange via-forge-gold to-forge-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" style={{ padding: '1px' }} />
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {/* Token Icon */}
         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center font-bold text-lg text-base-dark shrink-0 group-hover:shadow-lg group-hover:shadow-forge-orange/20 transition-shadow">
