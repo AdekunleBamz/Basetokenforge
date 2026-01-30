@@ -40,22 +40,22 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#create" className="text-white/60 hover:text-white text-sm transition-colors">
+                <a href="#create" className="text-white/60 hover:text-forge-orange text-sm transition-colors duration-200">
                   Create Token
                 </a>
               </li>
               <li>
-                <a href="#tokens" className="text-white/60 hover:text-white text-sm transition-colors">
+                <a href="#tokens" className="text-white/60 hover:text-forge-orange text-sm transition-colors duration-200">
                   My Tokens
                 </a>
               </li>
               <li>
-                <a href="#faq" className="text-white/60 hover:text-white text-sm transition-colors">
+                <a href="#faq" className="text-white/60 hover:text-forge-orange text-sm transition-colors duration-200">
                   FAQ
                 </a>
               </li>
               <li>
-                <a href="#about-base" className="text-white/60 hover:text-white text-sm transition-colors">
+                <a href="#about-base" className="text-white/60 hover:text-forge-orange text-sm transition-colors duration-200">
                   Why Base?
                 </a>
               </li>
