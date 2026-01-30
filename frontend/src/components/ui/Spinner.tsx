@@ -26,7 +26,7 @@ export function Spinner({ size = 'md', color = 'primary', className }: SpinnerPr
   return (
     <div
       className={cn(
-        'animate-spin rounded-full border-2',
+        'animate-spin rounded-full border-2 shadow-lg shadow-forge-orange/20',
         sizeStyles[size],
         colorStyles[color],
         className
