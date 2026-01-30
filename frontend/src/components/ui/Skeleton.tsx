@@ -27,7 +27,7 @@ export function Skeleton({
   return (
     <div
       className={cn(
-        'animate-pulse bg-white/10',
+        'animate-pulse bg-gradient-to-r from-white/5 via-white/15 to-white/5',
         roundedStyles[rounded],
         className
       )}
