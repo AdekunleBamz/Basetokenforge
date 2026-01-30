@@ -10,7 +10,7 @@ contract TokenFactoryTest is Test {
     address public owner = address(this);
     address public user = address(0x1);
     address public feeRecipient = address(0x2);
-    uint256 public creationFee = 0.0005 ether;
+    uint256 public creationFee = 0.00005 ether;
 
     function setUp() public {
         factory = new TokenFactory(creationFee, feeRecipient);
