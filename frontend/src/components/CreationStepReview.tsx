@@ -31,7 +31,7 @@ interface CreationStepReviewProps {
 }
 
 export function CreationStepReview({ 
-  creationFee = BigInt(100000000000000), // 0.0001 ETH
+  creationFee = BigInt(50000000000000), // 0.00005 ETH
   estimatedGas,
 }: CreationStepReviewProps) {
   const { formData, goBack, setStep } = useCreationFlow();
