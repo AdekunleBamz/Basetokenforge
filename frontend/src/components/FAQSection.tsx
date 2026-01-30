@@ -119,7 +119,7 @@ export function FAQSection({ className }: FAQSectionProps) {
     <section id="faq" className={cn('py-24 px-6', className)}>
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-display font-bold text-4xl md:text-5xl text-white mb-4">
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-white mb-4 hover:tracking-wider transition-all cursor-default">
             Frequently Asked Questions
           </h2>
           <p className="text-white/60 text-lg">
