@@ -90,7 +90,7 @@ function TokenListItem({ token, showActions = true, onClick }: TokenListItemProp
 
   return (
     <div 
-      className={`bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/20 transition-colors ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/20 hover:translate-x-1 transition-all ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
     >
       <div className="flex items-center gap-4">
