@@ -70,7 +70,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               'w-full rounded-xl border text-white placeholder-white/40',
               'font-body transition-all duration-300',
-              'focus:outline-none focus:ring-2 focus:ring-forge-orange/20',
+              'focus:outline-none focus:ring-2 focus:ring-forge-orange/30 focus:shadow-lg focus:shadow-forge-orange/10',
               sizeStyles[size],
               variantStyles[variant],
               hasLeftIcon && 'pl-10',
