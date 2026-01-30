@@ -85,11 +85,33 @@ export function Hero() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto mb-12 font-body">
+        <p className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto mb-8 font-body">
           Deploy ERC20 tokens on Base in seconds. No code required.
           <br className="hidden md:block" />
-          <span className="text-forge-orange">Low fees. Instant deployment.</span>
+          <span className="text-forge-orange">Only 0.00005 ETH. Instant deployment.</span>
         </p>
+
+        {/* Trust indicators */}
+        <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
+          <div className="flex items-center gap-2 text-white/50 text-sm">
+            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Verified Contracts</span>
+          </div>
+          <div className="flex items-center gap-2 text-white/50 text-sm">
+            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>100% Token Ownership</span>
+          </div>
+          <div className="flex items-center gap-2 text-white/50 text-sm">
+            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>No Hidden Fees</span>
+          </div>
+        </div>
 
         {/* CTA */}
         {!isConnected ? (
