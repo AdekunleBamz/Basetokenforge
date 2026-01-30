@@ -56,6 +56,7 @@ export function CopyButton({
         'inline-flex items-center gap-2 rounded-lg',
         'bg-white/5 hover:bg-white/10 border border-white/10',
         'text-white/60 hover:text-white transition-all duration-200',
+        copied && 'animate-success bg-green-500/20 border-green-500/30',
         sizeStyles[size],
         className
       )}
