@@ -56,7 +56,7 @@ export function WalletBalance({
             <span className="w-32 h-8 bg-white/10 rounded animate-pulse" />
           ) : (
             <>
-              <span className="text-2xl font-bold text-white font-mono">
+              <span className="text-2xl font-bold text-white font-mono bg-gradient-to-r from-white via-base-blue to-white bg-clip-text hover:text-transparent transition-all">
                 {balanceFormatted?.split(' ')[0] || '0'}
               </span>
               <span className="text-white/60">ETH</span>
