@@ -36,7 +36,7 @@ export function createTokenConfig(
   symbol: string,
   decimals: number,
   initialSupply: bigint,
-  creationFee: bigint = parseEther('0.0001')
+  creationFee: bigint = parseEther('0.00005')
 ) {
   return {
     address: factoryAddress,
