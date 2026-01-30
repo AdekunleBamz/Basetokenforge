@@ -145,7 +145,7 @@ export function CreationStepSupply() {
 
       {/* Presets */}
       <div className="space-y-2">
-        <label className="block text-xs text-white/60">Quick Select</label>
+        <label className="block text-xs text-white/60">Quick Select (Popular Supplies)</label>
         <div className="grid grid-cols-3 gap-2">
           {SUPPLY_PRESETS.map((preset) => (
             <button
@@ -155,12 +155,18 @@ export function CreationStepSupply() {
               className={`
                 px-3 py-2 rounded-lg font-medium text-sm transition-all
                 ${inputValue === preset.value
-                  ? 'bg-base-blue text-white'
-                  : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
+                  ? 'bg-base-blue text-white shadow-lg shadow-base-blue/25'
+                  : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10 hover:border-white/20'
                 }
               `}
             >
               {preset.label}
+              {preset.value === '21000000' && (
+                <span className="block text-[10px] text-white/50">Bitcoin-like</span>
+              )}
+              {preset.value === '1000000000' && (
+                <span className="block text-[10px] text-white/50">Billion</span>
+              )}
             </button>
           ))}
         </div>
