@@ -40,15 +40,15 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         {label && (
           <label className="block text-sm font-medium text-white/80">
             {label}
-            {required && <span className="text-red-400 ml-1">*</span>}
+            {required && <span className="text-red-400 ml-1" aria-label="required">*</span>}
           </label>
         )}
 
         {/* Input container */}
-        <div className="relative">
+        <div className="relative group">
           {/* Left icon */}
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-base-blue transition-colors">
               {leftIcon}
             </div>
           )}
