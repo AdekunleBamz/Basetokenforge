@@ -53,7 +53,7 @@ export function TabsList({ children, className }: TabsListProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-1 p-1 rounded-xl bg-white/5 border border-white/10',
+        'flex items-center gap-1 p-1 rounded-xl bg-white/5 border border-white/10 shadow-inner',
         className
       )}
       role="tablist"
