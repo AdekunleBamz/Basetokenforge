@@ -88,7 +88,7 @@ export function generateTwitterMetadata(
 }
 
 /**
- * Generate JSON-LD structured data
+ * Generate JSON-LD structured data for the main application
  */
 export function generateJsonLd() {
   return {
@@ -101,8 +101,105 @@ export function generateJsonLd() {
     operatingSystem: 'Web Browser',
     offers: {
       '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
+      price: '0.00005',
+      priceCurrency: 'ETH',
+      description: 'Token creation fee on Base network',
+    },
+    featureList: [
+      'Create ERC-20 tokens instantly',
+      'Deploy to Base mainnet',
+      'No coding required',
+      'Low gas fees (~$0.01)',
+      'Full token ownership',
+      'Verified smart contracts',
+    ],
+    screenshot: `${siteMetadata.siteUrl}/screenshot.png`,
+    softwareVersion: '2.0.0',
+  };
+}
+
+/**
+ * Generate JSON-LD for Organization schema
+ */
+export function generateOrganizationJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Base Token Forge',
+    url: siteMetadata.siteUrl,
+    logo: `${siteMetadata.siteUrl}/logo.png`,
+    description: siteMetadata.description,
+    sameAs: [
+      'https://twitter.com/BaseTokenForge',
+      'https://github.com/basetokenforge',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      url: `${siteMetadata.siteUrl}/support`,
     },
   };
 }
+
+/**
+ * Generate JSON-LD for FAQ schema (helps with rich snippets)
+ */
+export function generateFAQJsonLd(faqs: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+/**
+ * Generate JSON-LD for HowTo schema (token creation guide)
+ */
+export function generateHowToJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Create an ERC-20 Token on Base',
+    description: 'Step-by-step guide to creating your own cryptocurrency token on Base network',
+    totalTime: 'PT2M',
+    estimatedCost: {
+      '@type': 'MonetaryAmount',
+      currency: 'ETH',
+      value: '0.00005',
+    },
+    step: [
+      {
+        '@type': 'HowToStep',
+        name: 'Connect Wallet',
+        text: 'Connect your MetaMask or compatible wallet to Base network',
+        position: 1,
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Enter Token Details',
+        text: 'Provide your token name, symbol, and total supply',
+        position: 2,
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Review and Deploy',
+        text: 'Review your token configuration and confirm the transaction',
+        position: 3,
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Receive Tokens',
+        text: 'Your tokens are minted and sent directly to your wallet',
+        position: 4,
+      },
+    ],
+  };
+}
+
