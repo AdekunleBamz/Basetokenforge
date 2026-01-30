@@ -75,7 +75,7 @@ export function HowItWorksSection() {
                 <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-base-blue/30 transition-all hover:-translate-y-1">
                   {/* Number badge */}
                   <div className="absolute -top-4 left-6">
-                    <div className="w-8 h-8 rounded-full bg-base-blue text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-base-blue/25">
+                    <div className="w-8 h-8 rounded-full bg-base-blue text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-base-blue/25 hover:animate-bounce">
                       {step.number}
                     </div>
                   </div>
