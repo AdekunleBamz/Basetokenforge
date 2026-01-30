@@ -23,17 +23,17 @@ export function TokenCard({ token, className }: TokenCardProps) {
     : '...';
 
   return (
-    <Card variant="interactive" className={className}>
+    <Card variant="interactive" className={cn('group', className)}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {/* Token Icon */}
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center font-bold text-lg text-base-dark shrink-0">
-          {token.symbol?.charAt(0) || '?'}
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center font-bold text-lg text-base-dark shrink-0 group-hover:shadow-lg group-hover:shadow-forge-orange/20 transition-shadow">
+          {token.symbol?.slice(0, 2) || '??'}
         </div>
 
         {/* Token Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-display font-semibold text-lg text-white truncate">
+            <h3 className="font-display font-semibold text-lg text-white truncate group-hover:text-forge-orange transition-colors">
               {token.name || 'Loading...'}
             </h3>
             {token.decimals !== undefined && (
@@ -43,7 +43,7 @@ export function TokenCard({ token, className }: TokenCardProps) {
             )}
           </div>
           <p className="text-white/60 text-sm mt-1">
-            <span className="font-medium text-forge-orange">{token.symbol || '...'}</span>
+            <span className="font-medium text-forge-orange">${token.symbol || '...'}</span>
             {' • '}
             {formattedSupply} supply
           </p>
