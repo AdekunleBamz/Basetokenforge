@@ -58,7 +58,8 @@ export function Hero() {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 4}s`,
+              animationDelay: `${Math.random() * 6}s`,
+              animationDuration: `${3 + Math.random() * 3}s`,
               opacity: 0.3 + Math.random() * 0.4,
             }}
           />
