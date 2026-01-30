@@ -624,3 +624,38 @@ textarea:focus-visible {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
+
+/* Success shake animation */
+.animate-success {
+  animation: success-bounce 0.5s ease-out;
+}
+
+@keyframes success-bounce {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.05); }
+}
+
+/* Error shake animation */
+.animate-error {
+  animation: error-shake 0.5s ease-out;
+}
+
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* Attention pulse for warnings */
+.animate-attention {
+  animation: attention-pulse 1s ease-in-out infinite;
+}
+
+@keyframes attention-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
