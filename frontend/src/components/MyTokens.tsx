@@ -5,6 +5,14 @@ import { useReadContract, useReadContracts } from "wagmi";
 import { TOKEN_FACTORY_ABI, ERC20_ABI } from "@/config/abi";
 import { TOKEN_FACTORY_ADDRESS } from "@/config/wagmi";
 import { formatUnits } from "viem";
+import {
+  SearchResultsInfo,
+  TokenSearchInput,
+  TokenSortDropdown,
+  useTokenSearch,
+} from "@/components/TokenSearchFilter";
+import { TokenListSkeleton } from "@/components/LoadingSkeleton";
+import { useToast } from "@/components/ToastNotification";
 
 interface TokenInfo {
   address: `0x${string}`;
@@ -54,6 +62,18 @@ export function MyTokens() {
       totalSupply: tokenDetails?.[baseIdx + 3]?.result as bigint | undefined,
     };
   });
+  const { success, error } = useToast();
+  const {
+    searchQuery,
+    setSearchQuery,
+    sortOption,
+    setSortOption,
+    filteredTokens,
+    hasActiveFilters,
+    clearFilters,
+    resultCount,
+    totalCount,
+  } = useTokenSearch(tokens);
 
   if (!isConnected) {
     return (
@@ -80,10 +100,25 @@ export function MyTokens() {
           </p>
         </div>
 
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <TokenSearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by name, symbol, or address..."
+            className="flex-1"
+          />
+          <TokenSortDropdown value={sortOption} onChange={setSortOption} />
+        </div>
+
+        <SearchResultsInfo
+          resultCount={resultCount}
+          totalCount={totalCount}
+          hasActiveFilters={hasActiveFilters}
+          onClear={clearFilters}
+        />
+
         {isLoading ? (
-          <div className="flex justify-center">
-            <div className="spinner" />
-          </div>
+          <TokenListSkeleton count={3} />
         ) : tokens.length === 0 ? (
           <div className="card-forge text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
@@ -111,10 +146,49 @@ export function MyTokens() {
               Create Token
             </a>
           </div>
+        ) : filteredTokens.length === 0 ? (
+          <div className="card-forge text-center py-12">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
+              <svg
+                className="w-8 h-8 text-white/30"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-medium text-white mb-2">
+              No matching tokens
+            </h3>
+            <p className="text-white/60 mb-6">
+              Try a different search term or clear filters.
+            </p>
+            <button onClick={clearFilters} className="btn-forge inline-block">
+              Clear Filters
+            </button>
+          </div>
         ) : (
           <div className="grid gap-4">
-            {tokens.map((token, idx) => (
-              <TokenCard key={token.address || idx} token={token} />
+            {filteredTokens.map((token, idx) => (
+              <TokenCard
+                key={token.address || idx}
+                token={token}
+                onCopy={async (addressToCopy) => {
+                  try {
+                    await navigator.clipboard.writeText(addressToCopy);
+                    success("Address copied", "Token address copied to clipboard.");
+                  } catch (copyError) {
+                    error("Copy failed", "Please try again or copy manually.");
+                    console.error(copyError);
+                  }
+                }}
+              />
             ))}
           </div>
         )}
@@ -123,7 +197,13 @@ export function MyTokens() {
   );
 }
 
-function TokenCard({ token }: { token: TokenInfo }) {
+function TokenCard({
+  token,
+  onCopy,
+}: {
+  token: TokenInfo;
+  onCopy: (address: string) => void | Promise<void>;
+}) {
   const formattedSupply = token.totalSupply && token.decimals !== undefined
     ? formatUnits(token.totalSupply, token.decimals)
     : "...";
@@ -157,9 +237,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
           Basescan
         </a>
         <button
-          onClick={() => {
-            navigator.clipboard.writeText(token.address);
-          }}
+          onClick={() => onCopy(token.address)}
           className="flex-1 sm:flex-none px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white text-sm font-medium transition-colors"
         >
           Copy Address
