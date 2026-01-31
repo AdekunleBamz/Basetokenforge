@@ -1,8 +1,11 @@
 # 🔥 Base Token Forge
 
-Deploy your own ERC20 tokens on **Base mainnet** with one click. No coding required.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Built on Base](https://img.shields.io/badge/Built%20on-Base-0052FF)](https://base.org)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)](https://soliditylang.org/)
 
-![Base Token Forge](./docs/screenshot.png)
+Deploy your own ERC20 tokens on **Base mainnet** with one click. No coding required.
 
 ## Features
 
@@ -103,7 +106,7 @@ Base Token Forge works as a Farcaster Frame/Mini App:
 
 - **Contracts**: Solidity, Foundry, OpenZeppelin
 - **Frontend**: Next.js 14, TypeScript, Tailwind CSS
-- **Web3**: wagmi, viem, RainbowKit
+- **Web3**: wagmi, viem, Reown AppKit
 - **Chain**: Base (Ethereum L2)
 
 ## Security
@@ -112,6 +115,10 @@ Base Token Forge works as a Farcaster Frame/Mini App:
 - No admin functions on deployed tokens
 - Fully auditable, open source code
 
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a Pull Request.
+
 ## License
 
 MIT License - feel free to fork and build your own!
@@ -119,4 +126,3 @@ MIT License - feel free to fork and build your own!
 ---
 
 Built with 🔥 on Base
-
