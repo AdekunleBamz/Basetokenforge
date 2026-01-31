@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
 import { parseEther, parseUnits, formatEther, createWalletClient, custom } from "viem";
@@ -10,28 +10,48 @@ import { TOKEN_FACTORY_ADDRESS, CREATION_FEE } from "@/config/wagmi";
 import { useFarcaster } from "@/hooks/useFarcaster";
 import { sdk } from "@farcaster/frame-sdk";
 import { NumberInput } from "@/components/NumberInput";
-
-interface TokenForm {
-  name: string;
-  symbol: string;
-  decimals: number;
-  supply: string;
-}
+import { FormField, ValidatedInput } from "@/components/FormField";
+import { useFormValidation, validationRules } from "@/hooks/useFormValidation";
+import { useToast } from "@/components/ToastNotification";
+import { useConfetti } from "@/components/Confetti";
 
 export function TokenCreator() {
   const { address: appKitAddress, isConnected: isAppKitConnected } = useAppKitAccount();
   const { isInFrame } = useFarcaster();
   
   const [farcasterAddress, setFarcasterAddress] = useState<string | null>(null);
-  const [form, setForm] = useState<TokenForm>({
-    name: "",
-    symbol: "",
-    decimals: 18,
-    supply: "1000000",
-  });
+  const [decimals, setDecimals] = useState(18);
+  const { values, validations, handleChange, handleBlur, validateAll, isFormValid } =
+    useFormValidation(
+      {
+        name: "",
+        symbol: "",
+        supply: "1000000",
+      },
+      {
+        name: [
+          validationRules.required("Token name is required"),
+          validationRules.minLength(2, "Token name must be at least 2 characters"),
+          validationRules.maxLength(64, "Token name must be 64 characters or less"),
+        ],
+        symbol: [
+          validationRules.required("Token symbol is required"),
+          validationRules.maxLength(11, "Token symbol must be 11 characters or less"),
+          validationRules.pattern(/^[A-Z0-9]+$/, "Use uppercase letters and numbers only"),
+        ],
+        supply: [
+          validationRules.required("Supply is required"),
+          validationRules.positiveNumber("Supply must be a positive number"),
+        ],
+      }
+    );
   const [fcTxHash, setFcTxHash] = useState<string | null>(null);
   const [fcIsPending, setFcIsPending] = useState(false);
   const [fcError, setFcError] = useState<string | null>(null);
+  const lastTxHashRef = useRef<string | null>(null);
+  const lastErrorRef = useRef<string | null>(null);
+  const { success, error: toastError } = useToast();
+  const confetti = useConfetti();
 
   // Get Farcaster address
   useEffect(() => {
@@ -69,8 +89,9 @@ export function TokenCreator() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isConnected || !address) return;
+    if (!validateAll()) return;
 
-    const supplyWithDecimals = parseUnits(form.supply, form.decimals);
+    const supplyWithDecimals = parseUnits(values.supply, decimals);
 
     if (isInFrame && farcasterAddress) {
       // Use Farcaster wallet
@@ -89,7 +110,7 @@ export function TokenCreator() {
           address: TOKEN_FACTORY_ADDRESS,
           abi: TOKEN_FACTORY_ABI,
           functionName: "createToken",
-          args: [form.name, form.symbol, form.decimals, supplyWithDecimals],
+          args: [values.name, values.symbol, decimals, supplyWithDecimals],
           value: parseEther(fee),
           account: farcasterAddress as `0x${string}`,
         });
@@ -107,22 +128,36 @@ export function TokenCreator() {
         address: TOKEN_FACTORY_ADDRESS,
         abi: TOKEN_FACTORY_ABI,
         functionName: "createToken",
-        args: [form.name, form.symbol, form.decimals, supplyWithDecimals],
+        args: [values.name, values.symbol, decimals, supplyWithDecimals],
         value: parseEther(fee),
       });
     }
   };
 
-  const isValidForm =
-    form.name.length > 0 &&
-    form.symbol.length > 0 &&
-    form.symbol.length <= 11 &&
-    parseFloat(form.supply) > 0;
+  useEffect(() => {
+    if (txSuccess && txHash && txHash !== lastTxHashRef.current) {
+      lastTxHashRef.current = txHash;
+      confetti.trigger();
+      success("Token created", "Your token was deployed successfully.");
+    }
+  }, [txSuccess, txHash, confetti, success]);
+
+  useEffect(() => {
+    if (txError && txError !== lastErrorRef.current) {
+      lastErrorRef.current = txError;
+      toastError("Transaction failed", txError.slice(0, 120));
+    }
+  }, [txError, toastError]);
 
   const txPending = isInFrame ? fcIsPending : isPending;
   const txError = isInFrame ? fcError : error?.message;
   const txHash = isInFrame ? fcTxHash : hash;
   const txSuccess = isSuccess && !!txHash;
+  const canSubmit =
+    isFormValid &&
+    values.name.trim().length > 0 &&
+    values.symbol.trim().length > 0 &&
+    parseFloat(values.supply) > 0;
 
   return (
     <section id="create" className="py-24 px-6">
@@ -141,50 +176,53 @@ export function TokenCreator() {
         <div className="card-forge">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Token Name */}
-            <div>
-              <label className="block text-white/80 font-medium mb-2">
-                Token Name
-              </label>
-              <input
+            <FormField
+              label="Token Name"
+              required
+              touched={validations.name?.touched}
+              error={validations.name?.error}
+              successMessage="Looks good"
+              showSuccess
+            >
+              <ValidatedInput
                 type="text"
                 placeholder="e.g., My Awesome Token"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="input-forge"
+                value={values.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                onBlur={() => handleBlur("name")}
                 maxLength={64}
+                hasError={!!validations.name?.error}
+                isSuccess={validations.name?.touched && !validations.name?.error}
               />
-            </div>
+            </FormField>
 
             {/* Token Symbol */}
-            <div>
-              <label className="block text-white/80 font-medium mb-2">
-                Token Symbol
-              </label>
-              <input
+            <FormField
+              label="Token Symbol"
+              required
+              touched={validations.symbol?.touched}
+              error={validations.symbol?.error}
+              hint="Max 11 characters, uppercase only"
+              successMessage="Symbol ready"
+              showSuccess
+            >
+              <ValidatedInput
                 type="text"
                 placeholder="e.g., MAT"
-                value={form.symbol}
-                onChange={(e) =>
-                  setForm({ ...form, symbol: e.target.value.toUpperCase() })
-                }
-                className="input-forge"
+                value={values.symbol}
+                onChange={(e) => handleChange("symbol", e.target.value.toUpperCase())}
+                onBlur={() => handleBlur("symbol")}
                 maxLength={11}
+                hasError={!!validations.symbol?.error}
+                isSuccess={validations.symbol?.touched && !validations.symbol?.error}
               />
-              <p className="text-white/40 text-sm mt-1">
-                Max 11 characters, uppercase recommended
-              </p>
-            </div>
+            </FormField>
 
             {/* Decimals */}
-            <div>
-              <label className="block text-white/80 font-medium mb-2">
-                Decimals
-              </label>
+            <FormField label="Decimals" hint="Standard ERC20 uses 18 decimals">
               <select
-                value={form.decimals}
-                onChange={(e) =>
-                  setForm({ ...form, decimals: parseInt(e.target.value) })
-                }
+                value={decimals}
+                onChange={(e) => setDecimals(parseInt(e.target.value))}
                 className="input-forge cursor-pointer"
               >
                 <option value={18}>18 (Standard)</option>
@@ -192,21 +230,28 @@ export function TokenCreator() {
                 <option value={6}>6 (Like USDC)</option>
                 <option value={0}>0 (No decimals)</option>
               </select>
-            </div>
+            </FormField>
 
             {/* Total Supply */}
-            <div>
+            <FormField
+              label="Total Supply"
+              required
+              touched={validations.supply?.touched}
+              error={validations.supply?.error}
+              hint="All tokens will be minted to your wallet"
+              successMessage="Supply looks valid"
+              showSuccess
+            >
               <NumberInput
-                label="Total Supply"
+                label=""
                 placeholder="1000000"
-                value={form.supply}
-                onValueChange={(supply) => setForm({ ...form, supply })}
+                value={values.supply}
+                onValueChange={(supply) => handleChange("supply", supply)}
                 min={1}
                 step={1}
                 allowDecimals={false}
-                hint="All tokens will be minted to your wallet"
               />
-            </div>
+            </FormField>
 
             {/* Fee Display */}
             <div className="flex items-center justify-between p-4 rounded-xl bg-forge-orange/10 border border-forge-orange/30">
@@ -217,17 +262,17 @@ export function TokenCreator() {
             </div>
 
             {/* Preview */}
-            {form.name && form.symbol && (
+            {values.name && values.symbol && (
               <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                 <p className="text-white/60 text-sm mb-2">Preview</p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-forge-orange to-forge-gold flex items-center justify-center font-bold text-base-dark">
-                    {form.symbol.charAt(0)}
+                    {values.symbol.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-medium text-white">{form.name}</p>
+                    <p className="font-medium text-white">{values.name}</p>
                     <p className="text-white/60 text-sm">
-                      {form.symbol} • {Number(form.supply).toLocaleString()} supply
+                      {values.symbol} • {Number(values.supply).toLocaleString()} supply
                     </p>
                   </div>
                 </div>
@@ -265,7 +310,7 @@ export function TokenCreator() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={!isConnected || !isValidForm || txPending || isConfirming}
+              disabled={!isConnected || !canSubmit || txPending || isConfirming}
               className="btn-forge w-full flex items-center justify-center gap-3"
             >
               {txPending || isConfirming ? (
@@ -291,6 +336,7 @@ export function TokenCreator() {
           </form>
         </div>
       </div>
+      <confetti.Confetti duration={3500} particleCount={140} />
     </section>
   );
 }

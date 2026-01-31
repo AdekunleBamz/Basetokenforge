@@ -2,6 +2,7 @@
 
 import { AppKitProvider } from "@/context/AppKit";
 import { type State } from "wagmi";
+import { ToastProvider } from "@/components/ToastNotification";
 
 export function Providers({ 
   children,
@@ -12,7 +13,7 @@ export function Providers({
 }) {
   return (
     <AppKitProvider initialState={initialState}>
-      {children}
+      <ToastProvider>{children}</ToastProvider>
     </AppKitProvider>
   );
 }

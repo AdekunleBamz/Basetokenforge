@@ -1,10 +1,11 @@
 "use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useFarcaster } from "@/hooks/useFarcaster";
 import { sdk } from "@farcaster/frame-sdk";
+import { MobileNav, HamburgerButton } from "@/components/MobileNavigation";
 
 export function Header() {
   const { open } = useAppKit();
@@ -13,6 +14,7 @@ export function Header() {
   
   const [farcasterAddress, setFarcasterAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // Get address from Farcaster wallet if in frame
   useEffect(() => {
@@ -137,8 +139,19 @@ export function Header() {
               "Connect Wallet"
             )}
           </button>
+
+          {!isInFrame && (
+            <HamburgerButton
+              isOpen={isMobileNavOpen}
+              onClick={() => setIsMobileNavOpen((prev) => !prev)}
+            />
+          )}
         </div>
       </div>
+
+      {!isInFrame && (
+        <MobileNav isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
+      )}
     </header>
   );
 }
