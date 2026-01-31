@@ -8,6 +8,9 @@ import { Footer } from "@/components/Footer";
 import { FarcasterBanner } from "@/components/FarcasterProvider";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { useAppShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { SkipToContent } from "@/components/Accessibility";
+import { ErrorBoundaryWrapper } from "@/components/EnhancedErrorBoundary";
+import { FadeInSection, ScaleIn, BlurIn } from "@/components/PageTransitions";
 
 function AppContent() {
   // Enable keyboard shortcuts
@@ -17,10 +20,18 @@ function AppContent() {
     <>
       <FarcasterBanner />
       <Header />
-      <Hero />
-      <TokenCreator />
-      <MyTokens />
-      <Footer />
+      <FadeInSection direction="up">
+        <Hero />
+      </FadeInSection>
+      <ScaleIn>
+        <TokenCreator />
+      </ScaleIn>
+      <BlurIn>
+        <MyTokens />
+      </BlurIn>
+      <FadeInSection direction="up">
+        <Footer />
+      </FadeInSection>
       <KeyboardShortcutsHelp />
     </>
   );
@@ -28,8 +39,13 @@ function AppContent() {
 
 export default function Home() {
   return (
-    <main className="forge-bg min-h-screen">
-      <AppContent />
-    </main>
+    <>
+      <SkipToContent />
+      <main id="main-content" className="forge-bg min-h-screen">
+        <ErrorBoundaryWrapper>
+          <AppContent />
+        </ErrorBoundaryWrapper>
+      </main>
+    </>
   );
 }
